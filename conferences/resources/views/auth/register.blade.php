@@ -2,11 +2,57 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Name -->
+        <!-- Firstname -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <x-input-label for="firstname" :value="__('Firstname')" />
+            <x-text-input id="firstname" class="block mt-1 w-full" type="text" name="firstname" :value="old('firstname')" required autofocus />
+            <x-input-error :messages="$errors->get('firstname')" class="mt-2" />
+        </div>
+
+        <!-- Lastname -->
+        <div>
+            <x-input-label for="lastname" :value="__('Lastname')" />
+            <x-text-input id="lastname" class="block mt-1 w-full" type="text" name="lastname" :value="old('lastname')" required autofocus />
+            <x-input-error :messages="$errors->get('lastname')" class="mt-2" />
+        </div>
+
+
+        <!-- Type -->
+        <div>
+            <x-input-label for="type" :value="__('Type')" />
+            <select class="block mt-1 w-full" id="type" name="type">
+                @foreach (['Listener', 'Announcer'] as $type)
+                    <option>{{ $type }}</option>
+                @endforeach
+            </select>
+            {{--            <x-text-input id="type" class="block mt-1 w-full" type="text" name="type" :value="old('type')" required autofocus />--}}
+            <x-input-error :messages="$errors->get('type')" class="mt-2" />
+        </div>
+
+        <!-- Birthdate -->
+        <div>
+            <x-input-label for="birthdate" :value="__('Birthdate')" />
+            <x-text-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" required autofocus />
+            <x-input-error :messages="$errors->get('birthdate')" class="mt-2" />
+        </div>
+
+        <!-- Phone -->
+        <div>
+            <x-input-label for="phone" :value="__('Phone')" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone')" required autofocus />
+            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+        </div>
+
+        <!-- Country -->
+        <div>
+            <x-input-label for="country" :value="__('Country')" />
+            <select class="block mt-1 w-full" id="country" name="country">
+                @foreach ($countries as $country)
+                    <option>{{ $country }}</option>
+                @endforeach
+            </select>
+            {{--            <x-text-input id="country" class="block mt-1 w-full" type="text" name="country" :value="old('country')" required autofocus />--}}
+            <x-input-error :messages="$errors->get('country')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
@@ -21,9 +67,9 @@
             <x-input-label for="password" :value="__('Password')" />
 
             <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+                          type="password"
+                          name="password"
+                          required autocomplete="new-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -33,8 +79,8 @@
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 
             <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required />
+                          type="password"
+                          name="password_confirmation" required />
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
