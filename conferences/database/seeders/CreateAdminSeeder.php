@@ -23,7 +23,7 @@ class CreateAdminSeeder extends Seeder
             'birthdate' =>  '2000-01-01',
             'country_id' => 2,
             'phone' => '+1 (555) 555-5555',
-            'email' => 'admin@gmail.com',
+            'email' => 'admin@example.com',
             'created_at' => now(),
             'updated_at' => now(),
             ]);
