@@ -24,12 +24,12 @@ class Country extends Model
         return $this->name;
     }
 
-    protected static function getCountry($country_name){
-        return self::where('name', $country_name)->first();
+    protected static function getCountry($country_id){
+        return self::find($country_id);
     }
 
-    public static function associateCountry($model_object, $country_name){
-        $country = self::getCountry($country_name);
+    public static function associateCountry($model_object, $country_id){
+        $country = self::getCountry($country_id);
         $model_object->country()->associate($country);
         $model_object->save();
     }

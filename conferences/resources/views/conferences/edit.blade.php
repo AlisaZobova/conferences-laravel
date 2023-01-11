@@ -38,16 +38,16 @@
         <div class="form-group">
             <label for="country">Country</label>
             <select class="form-control" id="country" name="country">
-                <option>{{ $conference->country }}</option>
+                <option value="{{ $conference->country->id }}">{{ $conference->country }}</option>
                 @foreach ($countries as $country)
                     @if($country != $conference->country)
-                        <option>{{ $country }}</option>
+                        <option value="{{ $country->id  }}">{{ $country }}</option>
                     @endif
                 @endforeach
             </select>
         </div>
         <div class="form-group">
-            <a style="float: right; margin: 5px 0 5px 0;" class="btn btn-secondary" href="/conferences">Back</a>
+            <a style="float: right; margin: 5px 0 5px 0;" class="btn btn-secondary" href="{{ route('conferences.show', $conference->id) }}">Back</a>
             <button type="submit" style="float: right; margin: 5px 5px 0 0;" class="btn btn-primary">Update</button>
         </div>
     </form>

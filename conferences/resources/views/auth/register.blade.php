@@ -48,7 +48,7 @@
             <x-input-label for="country" :value="__('Country')" />
             <select class="block mt-1 w-full" id="country" name="country">
                 @foreach ($countries as $country)
-                    <option>{{ $country }}</option>
+                    <option value="{{ $country->id  }}>{{ $country }}</option>
                 @endforeach
             </select>
             {{--            <x-text-input id="country" class="block mt-1 w-full" type="text" name="country" :value="old('country')" required autofocus />--}}

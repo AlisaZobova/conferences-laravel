@@ -1,6 +1,6 @@
 @extends('layouts.base')
 @section('content')
-    <title>Conference{{ $conference->title }}</title>
+    <title id="show">Conference{{ $conference->title }}</title>
     <div class="container">
         <form action="#">
             <div class="form-group">
@@ -27,11 +27,11 @@
                 <input id="longitude" type="hidden" class="form-control" name="longitude"
                        value="{{ $conference->longitude }}">
             </div>
-            <?php if ($conference->latitude && $conference->longitude) { ?>
+            @if ($conference->latitude && $conference->longitude)
             <div class="form-group">
                 <div id="googleMap" style="width:100%;height:400px;"></div>
             </div>
-            <?php } ?>
+            @endif
             <div class="form-group">
 
                 <!--                Optional button for return to the main page-->
