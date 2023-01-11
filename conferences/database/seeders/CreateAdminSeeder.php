@@ -19,7 +19,7 @@ class CreateAdminSeeder extends Seeder
         $admin = User::create([
             'firstname' => 'Alex',
             'lastname' => 'Calm',
-            'password' => Hash::make('adminadmin'),
+            'password' => Hash::make('12345678'),
             'birthdate' =>  '2000-01-01',
             'country_id' => 2,
             'phone' => '+1 (555) 555-5555',

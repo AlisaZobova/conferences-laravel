@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ConferenceRequest;
 use App\Models\Conference;
 use App\Models\Country;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ConferenceController extends Controller
 {
@@ -23,6 +25,8 @@ class ConferenceController extends Controller
         $country = request()->country;
         $conference = Conference::create($data);
         Country::associateCountry($conference, $country);
+        User::associateUser($conference);
+        User::givePermissions();
         return redirect()->route('conferences.index');
     }
 
@@ -30,12 +34,22 @@ class ConferenceController extends Controller
         return view('conferences.show', compact('conference'));
     }
 
+    protected function isAllowed($conference) {
+        return $conference->user_id === Auth::id() || Auth::user()->hasRole('Admin');
+    }
+
     public function edit(Conference $conference){
+        if (!$this->isAllowed($conference)){
+            abort(403);
+        }
         $countries = Country::all();
         return view('conferences.edit', compact(['conference', 'countries']));
     }
 
     public function update(Conference $conference, ConferenceRequest $request) {
+        if (!$this->isAllowed($conference)){
+            abort(403);
+        }
         $data = $request->validated();
         $country = request()->country;
         $conference->update($data);
@@ -44,6 +58,9 @@ class ConferenceController extends Controller
     }
 
     public function destroy(Conference $conference) {
+        if (!$this->isAllowed($conference)){
+            abort(403);
+        }
         $conference->delete();
         return redirect()->route('conferences.index');
     }
