@@ -3,6 +3,10 @@ function initMap() {
     const lat = document.getElementById('latitude');
     const lng = document.getElementById('longitude');
 
+    if (!lat && !lng) {
+        return;
+    }
+
     let latitude = parseFloat(lat.value);
     let longitude = parseFloat(lng.value);
 
