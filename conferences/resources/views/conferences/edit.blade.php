@@ -24,12 +24,12 @@
         </div>
         <div class="form-group">
             <label for="latitude">Latitude</label>
-            <input type="text" class="form-control" id="latitude" placeholder="20.5" name="latitude"
+            <input type="text" class="form-control latlng" id="latitude" placeholder="20.5" name="latitude"
                    value="{{ $conference->latitude }}">
         </div>
         <div class="form-group">
             <label for="longitude">Longitude</label>
-            <input type="text" class="form-control" id="longitude" placeholder="38" name="longitude"
+            <input type="text" class="form-control latlng" id="longitude" placeholder="38" name="longitude"
                    value="{{ $conference->longitude }}">
         </div>
         <div class="form-group">
