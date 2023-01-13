@@ -8,7 +8,7 @@
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
 
-                <button type="submit" style="float: left;" class="btn btn-outline-warning mt-2 mb-2">
+                <button type="submit" style="float: right;" class="btn btn-outline-warning mt-2 mb-2">
                     {{ __('Log Out') }}
                 </button>
             </form>
