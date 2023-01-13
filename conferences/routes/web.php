@@ -17,12 +17,8 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(\route('conferences.index'));
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/conferences', [ ConferenceController::class, 'index' ])->name('conferences.index');
 
@@ -32,10 +28,6 @@ Route::group(['middleware' => ['permission:create conference']], function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
     Route::get('/conferences/{conference}', [ ConferenceController::class, 'show' ])->name('conferences.show');
     Route::post('/conferences/{conference}/join', [ UserController::class, 'join' ])->name('users.join');
     Route::post('/conferences/{conference}/cancel', [ UserController::class, 'cancel' ])->name('users.cancel');

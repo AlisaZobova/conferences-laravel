@@ -3,12 +3,28 @@
     Conferences
 @endsection
 @section('content')
+    @if(auth()->check())
+        <div class="container">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+
+                <button type="submit" style="float: left;" class="btn btn-outline-warning mt-2 mb-2">
+                    {{ __('Log Out') }}
+                </button>
+            </form>
+        </div>
+    @else
+        <div class="container">
+            <a href="{{ route('login') }}" style="float: right;" class="btn btn-outline-warning mt-2 mb-2">
+                {{ __('Log In') }}</a>
+        </div>
+    @endif
 
     <div id="main" class="container">
         <div class="row">
             <div class="col-12">
 
-                <a href="{{ route('conferences.create') }} " class="btn btn-success mt-3 mb-2"><i
+                <a href="{{ route('conferences.create') }} " class="btn btn-success mt-2 mb-2" style="float: right;"><i
                         class="fa fa-plus"></i> Add new conference</a>
 
                 <table class="table table-striped table-hover mt-2">
