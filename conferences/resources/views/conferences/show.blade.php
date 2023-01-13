@@ -1,5 +1,9 @@
 @extends('layouts.base')
+@section('title')
+    {{ $conference->title }}
+@endsection
 @section('content')
+    <div id="fb-root"></div>
     <title id="show">Conference{{ $conference->title }}</title>
     <div class="container">
         <table class="table table-striped table-hover mt-2">
@@ -32,16 +36,33 @@
         @endif
         <div class="form-group">
 
-            <!--                Optional button for return to the main page-->
+            @if((Auth::user() && !Auth::user()->hasRole('Admin')) || !Auth::user())
+                @if(Auth::user() && Auth::user()->isJoined($conference))
 
-            {{--    <button type="button" style="float: right; margin-left: 5px;" class="btn btn-secondary"><a--}}
-            {{--                style="text-decoration:none; color: white" href="/conferences">Back</a>--}}
-            {{--    </button>--}}
-            <div>
-                <a style="float: right; margin-left: 5px;" class="btn btn-primary"
+                    <a class="btn btn-outline-primary btn-group mr-2"
+                       href="https://twitter.com/intent/tweet?text={{ Config::get('share.text') }}&url={{ route(Config::get('share.link'), $conference->id) }}">TW</a>
+                    <a class="btn btn-outline-info btn-group mr-2"
+                       href="http://www.facebook.com/share.php?u={{ route(Config::get('share.link'), $conference->id) }}">FB</a>
+
+                    <div class="btn-group mr-2">
+                        <form action="{{ route('users.cancel', $conference->id) }}" method="post">
+                            @csrf
+                            <button type="submit" class="btn btn-info">Cancel Participation</button>
+                        </form>
+                    </div>
+
+                @else
+                    <form class="btn-group mr-2" action="{{ route('users.join', $conference->id) }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-success">Join</button>
+                    </form>
+                @endif
+            @endif
+            <div class="btn-group mr-2">
+                <a class="btn btn-primary"
                    href="{{ route('conferences.edit', $conference->id) }}">Update</a>
             </div>
-            <div>
+            <div class="btn-group mr-2">
                 <form action="{{ route('conferences.destroy', $conference->id) }}" method="post">
                     @csrf
                     @method('DELETE')

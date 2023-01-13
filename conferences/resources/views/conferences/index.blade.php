@@ -1,7 +1,8 @@
 @extends('layouts.base')
+@section('title')
+    Conferences
+@endsection
 @section('content')
-
-    <title>Conferences</title>
 
     <div id="main" class="container">
         <div class="row">
@@ -25,11 +26,38 @@
                             <td>{{ $conference->title }}</td>
                             <td>{{ $conference->conf_date }}</td>
                             <td>
-                                <form action="{{ route('conferences.destroy', $conference->id) }}" method="post">
+                                <div class="btn-group mr-2">
+                                    <form action="{{ route('conferences.show', $conference->id) }}" method="get">
+                                        <button type="submit" class="btn btn-primary">Details</button>
+                                    </form>
+                                </div>
+                                <form class="btn-group mr-2"
+                                      action="{{ route('conferences.destroy', $conference->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
+                                @if((Auth::user() && !Auth::user()->hasRole('Admin')) || !Auth::user())
+                                    @if(Auth::user() && Auth::user()->isJoined($conference))
+                                        <form class="btn-group mr-2"
+                                              action="{{ route('users.cancel', $conference->id) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-info">Cancel Participation</button>
+                                        </form>
+
+                                        <a class="btn btn-outline-primary btn-group mr-2"
+                                           href="https://twitter.com/intent/tweet?text={{ Config::get('share.text') }}&url={{ route(Config::get('share.link'), $conference->id) }}">TW</a>
+                                        <a class="btn btn-outline-info btn-group mr-2"
+                                           href="http://www.facebook.com/share.php?u={{ route(Config::get('share.link'), $conference->id) }}">FB</a>
+
+                                    @else
+                                        <form class="btn-group mr-2" action="{{ route('users.join', $conference->id) }}"
+                                              method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success">Join</button>
+                                        </form>
+                                    @endif
+                                @endif
                             </td>
                         </tr>
 
@@ -40,6 +68,7 @@
 
             </div>
         </div>
+        {{ $conferences->links("pagination::bootstrap-4") }}
     </div>
 
 @endsection

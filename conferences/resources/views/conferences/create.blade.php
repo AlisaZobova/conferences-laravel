@@ -1,4 +1,7 @@
 @extends('layouts.base')
+@section('title')
+    Create conference
+@endsection
 @section('content')
     <form action="{{ route('conferences.store') }}" method="post">
         @csrf

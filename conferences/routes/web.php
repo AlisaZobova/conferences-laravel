@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConferenceController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/conferences/{conference}', [ ConferenceController::class, 'show' ])->name('conferences.show');
+    Route::post('/conferences/{conference}/join', [ UserController::class, 'join' ])->name('users.join');
+    Route::post('/conferences/{conference}/cancel', [ UserController::class, 'cancel' ])->name('users.cancel');
 });
 
 

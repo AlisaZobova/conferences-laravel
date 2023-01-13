@@ -1,6 +1,9 @@
 @extends('layouts.base')
+@section('title')
+    Edit {{ $conference->title }}
+@endsection
 @section('content')
-    <form action="{{ route('conferences.update', $conference->id) }}" method="post">
+    <form style="display: inline;" action="{{ route('conferences.update', $conference->id) }}" method="post">
         @csrf
         @if ($errors->any())
             <div class="alert alert-danger mt-4">
@@ -46,9 +49,14 @@
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
-            <a style="float: right; margin: 5px 0 5px 0;" class="btn btn-secondary" href="{{ route('conferences.show', $conference->id) }}">Back</a>
-            <button type="submit" style="float: right; margin: 5px 5px 0 0;" class="btn btn-primary">Update</button>
+        <div style="display: inline;" class="form-group">
+            <a class="btn-group mr-2 btn btn-secondary" href="{{ route('conferences.show', $conference->id) }}">Back</a>
+            <button type="submit" class="btn-group mr-2 btn btn-primary">Save</button>
         </div>
+    </form>
+    <form style="display: inline;" class="btn-group mr-2" action="{{ route('conferences.destroy', $conference->id) }}" method="post">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn-group mr-2 btn btn-danger">Delete</button>
     </form>
 @endsection
