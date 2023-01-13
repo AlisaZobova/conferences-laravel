@@ -47,20 +47,39 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function country(){
+    public function country()
+    {
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
 
-    public static function givePermissions(){
+    public static function givePermissions()
+    {
         $user = Auth::user();
         $user->syncPermissions(['update conference', 'delete conference']);
     }
 
-    public function conferences(){
+    public function conferences()
+    {
         return $this->hasMany(Conference::class, 'user_id', 'id');
     }
 
-    public static function associateUser($model_object){
+    public function joinedConferences()
+    {
+        return $this->belongsToMany(Conference::class);
+    }
+
+    public function isJoined(Conference $conference)
+    {
+        if ($this->joinedConferences->contains($conference)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public static function associateUser($model_object)
+    {
         $model_object->user()->associate(Auth::user());
         $model_object->save();
     }
