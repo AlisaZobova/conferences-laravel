@@ -34,12 +34,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::group(['middleware' => ['permission:update conference']], function () {
+Route::group(['middleware' => ['permission:update conference', 'creator']], function () {
     Route::get('/conferences/{conference}/edit', [ ConferenceController::class, 'edit' ])->name('conferences.edit');
     Route::patch('/conferences/{conference}', [ ConferenceController::class, 'update' ])->name('conferences.update');
 });
 
-Route::group(['middleware' => ['permission:delete conference']], function () {
+Route::group(['middleware' => ['permission:delete conference', 'creator']], function () {
     Route::delete('/conferences/{conference}', [ ConferenceController::class, 'destroy' ])->name('conferences.destroy');
 });
 
