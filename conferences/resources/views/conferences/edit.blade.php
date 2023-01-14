@@ -5,15 +5,7 @@
 @section('content')
     <form style="display: inline;" action="{{ route('conferences.update', $conference->id) }}" method="post">
         @csrf
-        @if ($errors->any())
-            <div class="alert alert-danger mt-4">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('conferences.errors')
         @method('patch')
         <div class="form-group">
             <label for="title">Title</label>

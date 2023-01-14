@@ -5,15 +5,7 @@
 @section('content')
     <form action="{{ route('conferences.store') }}" method="post">
         @csrf
-        @if ($errors->any())
-            <div class="alert alert-danger mt-4">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('conferences.errors')
         <div class="form-group">
             <label for="title">Title</label>
             <input type="text" class="form-control" id="title" placeholder="Title" name="title">
