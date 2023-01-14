@@ -16,7 +16,8 @@ class CreateAdminSeeder extends Seeder
      */
     public function run()
     {
-        $admin = User::create([
+        $admin = User::create(
+            [
             'firstname' => 'Alex',
             'lastname' => 'Calm',
             'password' => Hash::make('12345678'),
@@ -26,7 +27,8 @@ class CreateAdminSeeder extends Seeder
             'email' => 'admin@example.com',
             'created_at' => now(),
             'updated_at' => now(),
-            ]);
+            ]
+        );
 
         $admin->assignRole('Admin');
     }

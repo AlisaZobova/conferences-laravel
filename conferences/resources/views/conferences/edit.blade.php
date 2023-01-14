@@ -54,7 +54,8 @@
             <button type="submit" class="btn-group mr-2 btn btn-primary">Save</button>
         </div>
     </form>
-    <form style="display: inline;" class="btn-group mr-2" action="{{ route('conferences.destroy', $conference->id) }}" method="post">
+    <form style="display: inline;" class="btn-group mr-2" action="{{ route('conferences.destroy', $conference->id) }}"
+          method="post">
         @csrf
         @method('DELETE')
         <button type="submit" class="btn-group mr-2 btn btn-danger">Delete</button>

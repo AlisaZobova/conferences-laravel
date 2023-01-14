@@ -15,9 +15,11 @@ class CountrySeeder extends Seeder
      */
     public function run()
     {
-        Country::create([
+        Country::create(
+            [
             'name' => 'Ukraine'
-        ]);
+            ]
+        );
 
         Country::factory()->count(9)->create();
     }

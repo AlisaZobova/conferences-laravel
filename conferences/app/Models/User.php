@@ -72,8 +72,7 @@ class User extends Authenticatable
     {
         if ($this->joinedConferences->contains($conference)) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

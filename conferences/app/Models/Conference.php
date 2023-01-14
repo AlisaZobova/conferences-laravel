@@ -14,11 +14,13 @@ class Conference extends Model
     protected $table = 'conferences';
     protected $guarded = false;
 
-    public function country(){
+    public function country()
+    {
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

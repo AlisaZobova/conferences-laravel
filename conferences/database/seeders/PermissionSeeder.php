@@ -15,16 +15,22 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create([
+        Permission::create(
+            [
             'name' => 'create conference'
-        ]);
+            ]
+        );
 
-        Permission::create([
+        Permission::create(
+            [
             'name' => 'update conference'
-        ]);
+            ]
+        );
 
-        Permission::create([
+        Permission::create(
+            [
             'name' => 'delete conference'
-        ]);
+            ]
+        );
     }
 }

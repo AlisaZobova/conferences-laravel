@@ -15,22 +15,28 @@ class CreateRoleSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
+        Role::create(
+            [
             'name' => 'Admin',
             'created_at' => now(),
             'updated_at' => now(),
-        ]);
+            ]
+        );
 
-        Role::create([
+        Role::create(
+            [
             'name' => 'Listener',
             'created_at' => now(),
             'updated_at' => now(),
-        ]);
+            ]
+        );
 
-        Role::create([
+        Role::create(
+            [
             'name' => 'Announcer',
             'created_at' => now(),
             'updated_at' => now(),
-        ]);
+            ]
+        );
     }
 }

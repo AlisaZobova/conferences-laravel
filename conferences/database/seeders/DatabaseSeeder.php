@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
+        $this->call(
+            [
             CountrySeeder::class,
             CreateRoleSeeder::class,
             CreateAdminSeeder::class,
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
             ConferenceSeeder::class,
             PermissionSeeder::class,
             ModelPermissionsSeeder::class
-        ]);
+            ]
+        );
     }
 }

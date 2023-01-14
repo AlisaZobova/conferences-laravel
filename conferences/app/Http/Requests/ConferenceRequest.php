@@ -25,7 +25,8 @@ class ConferenceRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['string', 'required', 'min:2', 'max:255', 'regex:/[A-Z][a-z]*(\s(([A-Z][a-z]*)|([a-z]+))|(\s[0-9]+)*)*/'],
+            'title' => ['string', 'required', 'min:2', 'max:255',
+                'regex:/[A-Z][a-z]*(\s(([A-Z][a-z]*)|([a-z]+))|(\s[0-9]+)*)*/'],
             'conf_date' => 'required|after_or_equal:' . now(),
             'latitude' => 'numeric|between:-90,90|nullable',
             'longitude' => 'numeric|between:-90,90|nullable',
