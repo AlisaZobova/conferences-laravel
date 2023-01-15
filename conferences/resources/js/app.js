@@ -4,6 +4,8 @@ import 'intl-tel-input/build/css/intlTelInput.css';
 import 'intl-tel-input/build/js/intlTelInput';
 import 'intl-tel-input/build/js/utils';
 
+import '../css/register.css'
+
 import Alpine from 'alpinejs';
 
 import initMap from './map.js';
