@@ -43,7 +43,7 @@
         <!-- Phone -->
         <div>
             <x-input-label for="phone" :value="__('Phone')"/>
-            <input id="intl-phone" type="tel" name="intl-phone" required autofocus>
+            <input class="block mt-1 w-full" id="intl-phone" type="tel" name="intl-phone" required autofocus>
             <input id="phone" type="hidden" name="phone">
             <input id="invalid-msg" type="hidden" value="Not valid number!">
             <x-input-error :messages="$errors->get('phone')" class="mt-2"/>
