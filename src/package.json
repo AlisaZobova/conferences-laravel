@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "preview": "vite preview"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
@@ -19,6 +20,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "intl-tel-input": "^17.0.19"
+        "intl-tel-input": "^17.0.19",
+        "jquery": "^3.6.3",
+        "popper.js": "^1.16.1"
     }
 }
