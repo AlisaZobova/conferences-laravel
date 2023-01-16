@@ -6,6 +6,8 @@ import 'intl-tel-input/build/js/utils';
 
 import '../css/register.css'
 
+import '../css/app.css'
+
 import Alpine from 'alpinejs';
 
 import initMap from './map.js';
