@@ -22,13 +22,14 @@ if (input) {
         preferredCountries: ["UA", "US"]
     });
     input.addEventListener('input', function () {
-        phone.value = iti.getNumber();
 
         if (!iti.isValidNumber()){
             message.type = null;
+            phone.value = null;
         }
         else {
             message.type = "hidden";
+            phone.value = iti.getNumber();
         }
     });
 }
