@@ -30,34 +30,47 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
-            'birthdate' => 'required|date|before_or_equal:' . now(),
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
             'password' => Hash::make($request->password),
-            'birthdate' =>  $request->birthdate,
-            'phone' => $request->phone,
             'email' => $request->email,
         ]);
-
-        Country::associateCountry($user, $request->country);
 
         $user->assignRole($request->type);
 
         event(new Registered($user));
 
+        return $user->id;
+    }
+
+    public function store_additional(Request $request, User $user): RedirectResponse
+    {
+        $request->validate([
+            'firstname' => 'string|max:255|nullable',
+            'lastname' => 'string|max:255|nullable',
+            'phone' => 'string|max:20|nullable',
+            'birthdate' => 'nullable|date|before_or_equal:' . now()
+        ]);
+
+        $user->firstname = $request->firstname;
+        $user->lastname = $request->lastname;
+        $user->birthdate =  $request->birthdate;
+        $user->phone = $request->phone;
+
+        if ($request->country)
+        {
+            Country::associateCountry($user, $request->country);
+        }
+
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
     }
+
 }
