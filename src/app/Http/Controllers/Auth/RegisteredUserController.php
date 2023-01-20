@@ -19,10 +19,9 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(): \Illuminate\Database\Eloquent\Collection
     {
-        $countries = Country::all();
-        return view('auth.register', compact('countries'));
+        return Country::all();
     }
 
     /**
@@ -55,7 +54,8 @@ class RegisteredUserController extends Controller
             'firstname' => 'string|max:255|nullable',
             'lastname' => 'string|max:255|nullable',
             'phone' => 'string|max:20|nullable',
-            'birthdate' => 'nullable|date|before_or_equal:' . now()
+            'birthdate' => 'nullable|date|before_or_equal:' . now(),
+            'country' => 'nullable|integer'
         ]);
 
         $user->firstname = $request->firstname;
@@ -63,10 +63,7 @@ class RegisteredUserController extends Controller
         $user->birthdate =  $request->birthdate;
         $user->phone = $request->phone;
 
-        if ($request->country)
-        {
-            Country::associateCountry($user, $request->country);
-        }
+        Country::associateCountry($user, $request->country);
 
         Auth::login($user);
 
