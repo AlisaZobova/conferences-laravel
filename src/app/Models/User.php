@@ -47,6 +47,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['roles', 'conferences', 'joinedConferences'];
+
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');

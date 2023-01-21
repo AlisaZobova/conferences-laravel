@@ -18,7 +18,7 @@ class ConferenceFactory extends Factory
     {
         return [
             'title' => ucfirst(fake()->word()),
-            'conf_date' => fake()->dateTime(),
+            'conf_date' => fake()->date(),
             'latitude' => fake()->numberBetween(-90, 90),
             'longitude' => fake()->numberBetween(-90, 90),
             'country_id' => fake()->numberBetween(1, 10)

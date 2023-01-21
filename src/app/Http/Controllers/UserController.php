@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function join(Conference $conference): \Illuminate\Http\RedirectResponse
+    public function join(Conference $conference)
     {
         Auth::user()->joinedConferences()->attach($conference);
-        return redirect()->route('conferences.show', $conference->id);
+        return Auth::user();
     }
 
-    public function cancel(Conference $conference): \Illuminate\Http\RedirectResponse
+    public function cancel(Conference $conference)
     {
         Auth::user()->joinedConferences()->detach($conference);
-        return redirect()->route('conferences.index');
+        return Auth::user();
     }
 }

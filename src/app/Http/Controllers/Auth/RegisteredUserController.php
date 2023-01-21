@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
@@ -45,10 +42,10 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        return $user->id;
+        return $user;
     }
 
-    public function store_additional(Request $request, User $user): RedirectResponse
+    public function store_additional(Request $request, User $user)
     {
         $request->validate([
             'firstname' => 'string|max:255|nullable',
@@ -67,7 +64,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return $user;
     }
 
 }
