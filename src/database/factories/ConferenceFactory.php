@@ -21,7 +21,8 @@ class ConferenceFactory extends Factory
             'conf_date' => fake()->date(),
             'latitude' => fake()->numberBetween(-90, 90),
             'longitude' => fake()->numberBetween(-90, 90),
-            'country_id' => fake()->numberBetween(1, 10)
+            'country_id' => fake()->numberBetween(1, 10),
+            'user_id' => fake()->numberBetween(1, 10),
         ];
     }
 }
