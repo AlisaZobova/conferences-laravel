@@ -35,6 +35,7 @@ Route::group(
 
 Route::middleware('auth')->group(
     function () {
+        Route::get('user/{user}', [UserController::class, 'getUser']);
         Route::get('/conferences/{conference}', [ ConferenceController::class, 'show' ])->name('conferences.show');
         Route::post('/conferences/{conference}/join', [ UserController::class, 'join' ])->name('users.join');
         Route::post('/conferences/{conference}/cancel', [ UserController::class, 'cancel' ])->name('users.cancel');
