@@ -1,0 +1,446 @@
+{
+	"info": {
+		"_postman_id": "2963fb8a-6837-4933-a308-d56d3a3835c8",
+		"name": "conferences",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21262383"
+	},
+	"item": [
+		{
+			"name": "index page",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/conferences",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"conferences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show conference",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/conferences/{{conference_id}}",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"conferences",
+						"{{conference_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update conference",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Test Update Title",
+							"type": "text"
+						},
+						{
+							"key": "conf_date",
+							"value": "2024-08-09 01:31:11",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "20",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/conferences/{{conference_id}}",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"conferences",
+						"{{conference_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "store conference",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "title",
+							"value": "Test Create Title",
+							"type": "text"
+						},
+						{
+							"key": "conf_date",
+							"value": "2024-08-09",
+							"type": "text"
+						},
+						{
+							"key": "latitude",
+							"value": "25",
+							"type": "text"
+						},
+						{
+							"key": "longitude",
+							"value": "40",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/conferences",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"conferences"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete conference",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/conferences/{{conference_id}}",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"conferences",
+						"{{conference_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "join",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/conferences/{{conference_id}}/join",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"conferences",
+						"{{conference_id}}",
+						"join"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancel participation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/conferences/{{conference_id}}/cancel",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"conferences",
+						"{{conference_id}}",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "{{admin_email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{admin_password}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/login",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "type",
+							"value": "Listener",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "{{listener_create_email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password_create}}",
+							"type": "text"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "{{password_create}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/register",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am.groupbwt.com/public/logout",
+					"protocol": "http",
+					"host": [
+						"zobova-am",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"public",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/sanctum/csrf-cookie",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"sanctum",
+						"csrf-cookie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register additional",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "firstname",
+							"value": "Nick",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "Smith",
+							"type": "text"
+						},
+						{
+							"key": "birthdate",
+							"value": "2003-12-07",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "+380666666666",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/register/{{user_id}}",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"register",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/user/{{user_id}}",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"user",
+						"{{user_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
