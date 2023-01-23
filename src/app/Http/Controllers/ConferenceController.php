@@ -23,12 +23,12 @@ class ConferenceController extends Controller
         Country::associateCountry($conference, $country);
         User::associateUser($conference);
         User::givePermissions();
-        return $conference;
+        return $conference->load('country');
     }
 
     public function show(Conference $conference)
     {
-        return $conference;
+        return $conference->load('country');
     }
 
     public function update(Conference $conference, ConferenceRequest $request)
@@ -37,7 +37,7 @@ class ConferenceController extends Controller
         $country = $request->country_id;
         $conference->update($data);
         Country::associateCountry($conference, $country);
-        return $conference;
+        return $conference->load('country');
     }
 
     public function destroy(Conference $conference)

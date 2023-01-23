@@ -13,6 +13,7 @@ class Conference extends Model
 
     protected $table = 'conferences';
     protected $guarded = false;
+    protected $with = ['country'];
 
     public function country()
     {
