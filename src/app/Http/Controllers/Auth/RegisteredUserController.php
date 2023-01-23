@@ -13,13 +13,6 @@ use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): \Illuminate\Database\Eloquent\Collection
-    {
-        return Country::all();
-    }
 
     /**
      * Handle an incoming registration request.
