@@ -40,7 +40,7 @@ Route::middleware('auth')->group(
         }
 );
 
-Route::middleware(['auth', 'participation'])->group(
+Route::middleware(['auth', 'role:Announcer|Listener'])->group(
     function () {
         Route::post('/conferences/{conference}/join', [ UserController::class, 'join' ])->name('users.join');
         Route::post('/conferences/{conference}/cancel', [ UserController::class, 'cancel' ])->name('users.cancel');
