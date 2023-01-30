@@ -41,11 +41,11 @@ class RegisteredUserController extends Controller
     public function store_additional(Request $request, User $user)
     {
         $request->validate([
-            'firstname' => 'string|max:255|nullable',
-            'lastname' => 'string|max:255|nullable',
-            'phone' => 'string|max:20|nullable',
-            'birthdate' => 'nullable|date|before_or_equal:' . now(),
-            'country' => 'nullable|integer'
+            'firstname' => 'string|max:255|required',
+            'lastname' => 'string|max:255|required',
+            'phone' => 'string|max:20|required',
+            'birthdate' => 'required|date|before_or_equal:' . now(),
+            'country' => 'required|integer'
         ]);
 
         $user->firstname = $request->firstname;
