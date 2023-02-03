@@ -47,6 +47,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = ['roles', 'conferences', 'joinedConferences'];
+
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
@@ -70,11 +72,7 @@ class User extends Authenticatable
 
     public function isJoined(Conference $conference)
     {
-        if ($this->joinedConferences->contains($conference)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->joinedConferences->contains($conference);
     }
 
     public static function associateUser($model_object)

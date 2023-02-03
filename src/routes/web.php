@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\UserController;
@@ -23,27 +24,33 @@ Route::get(
 );
 
 Route::get('/conferences', [ ConferenceController::class, 'index' ])->name('conferences.index');
+Route::get('/countries', [ CountryController::class, 'index' ])->name('countries.index');
 
 Route::group(
     ['middleware' => ['permission:create conference']],
     function () {
-        Route::get('/conferences/create', [ ConferenceController::class, 'create' ])->name('conferences.create');
         Route::post('/conferences', [ ConferenceController::class, 'store' ])->name('conferences.store');
     }
 );
 
 Route::middleware('auth')->group(
     function () {
+        Route::get('user/{user}', [UserController::class, 'getUser']);
         Route::get('/conferences/{conference}', [ ConferenceController::class, 'show' ])->name('conferences.show');
+        }
+);
+
+Route::middleware(['auth', 'role:Announcer|Listener'])->group(
+    function () {
         Route::post('/conferences/{conference}/join', [ UserController::class, 'join' ])->name('users.join');
         Route::post('/conferences/{conference}/cancel', [ UserController::class, 'cancel' ])->name('users.cancel');
     }
 );
 
+
 Route::group(
     ['middleware' => ['permission:update conference', 'creator']],
     function () {
-        Route::get('/conferences/{conference}/edit', [ ConferenceController::class, 'edit' ])->name('conferences.edit');
         Route::patch('/conferences/{conference}', [ ConferenceController::class, 'update' ])->name('conferences.update');
     }
 );

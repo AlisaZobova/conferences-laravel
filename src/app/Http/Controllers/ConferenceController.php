@@ -11,15 +11,9 @@ class ConferenceController extends Controller
 {
     public function index()
     {
-        $conferences = Conference::paginate(15);
-        return view('conferences.index', compact(['conferences']));
+        return Conference::orderBy('conf_date', 'DESC')->paginate(15);
     }
 
-    public function create()
-    {
-        $countries = Country::all();
-        return view('conferences.create', compact('countries'));
-    }
 
     public function store(ConferenceRequest $request)
     {
@@ -29,32 +23,25 @@ class ConferenceController extends Controller
         Country::associateCountry($conference, $country);
         User::associateUser($conference);
         User::givePermissions();
-        return redirect()->route('conferences.index');
+        return $conference->load('country');
     }
 
     public function show(Conference $conference)
     {
-        return view('conferences.show', compact(['conference']));
-    }
-
-    public function edit(Conference $conference)
-    {
-        $countries = Country::all();
-        return view('conferences.edit', compact(['conference', 'countries']));
+        return $conference->load('country');
     }
 
     public function update(Conference $conference, ConferenceRequest $request)
     {
         $data = $request->validated();
-        $country = request()->country;
+        $country = $request->country_id;
         $conference->update($data);
         Country::associateCountry($conference, $country);
-        return redirect()->route('conferences.show', $conference->id);
+        return $conference->load('country');
     }
 
     public function destroy(Conference $conference)
     {
         $conference->delete();
-        return redirect()->route('conferences.index');
     }
 }
