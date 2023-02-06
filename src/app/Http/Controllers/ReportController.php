@@ -36,6 +36,21 @@ class ReportController extends Controller
     public function update(Report $report, ReportRequest $request)
     {
         $data = $request->validated();
+
+        if ($data['presentation']) {
+            if ($report->presentation) {
+                $filename = public_path('upload') . '\\' . $report->presentation;
+                unlink($filename);
+            }
+            $fileName = time() . '_' . $data['presentation']->getClientOriginalName();
+            $data['presentation']->move(public_path('upload'), $fileName);
+            $data['presentation'] = $fileName;
+        }
+
+        else {
+            unset($data['presentation']);
+        }
+
         $report->update($data);
         return $report->load('user', 'conference', 'comments');
     }
