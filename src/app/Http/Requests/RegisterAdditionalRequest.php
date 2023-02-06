@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class ConferenceRequest extends FormRequest
+class RegisterAdditionalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class ConferenceRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return true;
     }
 
     /**
@@ -25,10 +25,11 @@ class ConferenceRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['string', 'required', 'min:2', 'max:255', 'regex:/[A-Z].*/'],
-            'conf_date' => 'required|after_or_equal:' . now()->format('Y-m-d'),
-            'latitude' => 'numeric|between:-90,90|nullable',
-            'longitude' => 'numeric|between:-180,180|nullable',
+            'firstname' => 'string|max:255|required',
+            'lastname' => 'string|max:255|required',
+            'phone' => 'string|max:20|required',
+            'birthdate' => 'required|date|before_or_equal:' . now(),
+            'country' => 'required|integer'
         ];
     }
 }
