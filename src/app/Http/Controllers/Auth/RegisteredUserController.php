@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterAdditionalRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\Country;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
 {
@@ -19,41 +18,30 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $data = $request->validated();
 
         $user = User::create([
-            'password' => Hash::make($request->password),
-            'email' => $request->email,
+            'password' => Hash::make($data['password']),
+            'email' => $data['email'],
         ]);
 
-        $user->assignRole($request->type);
-
-        event(new Registered($user));
+        $user->assignRole($data['type']);
 
         return $user;
     }
 
-    public function store_additional(Request $request, User $user)
+    public function store_additional(RegisterAdditionalRequest $request, User $user)
     {
-        $request->validate([
-            'firstname' => 'string|max:255|required',
-            'lastname' => 'string|max:255|required',
-            'phone' => 'string|max:20|required',
-            'birthdate' => 'required|date|before_or_equal:' . now(),
-            'country' => 'required|integer'
-        ]);
+        $data = $request->validated();
 
-        $user->firstname = $request->firstname;
-        $user->lastname = $request->lastname;
-        $user->birthdate =  $request->birthdate;
-        $user->phone = $request->phone;
+        $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
+        $user->birthdate =  $data['birthdate'];
+        $user->phone = $data['phone'];
 
-        Country::associateCountry($user, $request->country);
+        Country::associateCountry($user, $data['country']);
 
         Auth::login($user);
 

@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Models\Report;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Period\Boundaries;
 use Spatie\Period\Period;
 use Spatie\Period\PeriodCollection;
 use Spatie\Period\Precision;
@@ -51,7 +50,6 @@ class ReportRequest extends FormRequest
                         $periods = $periods->add(Period::make($report->start_time, $report->end_time, Precision::MINUTE()));
                     }
                     $boundaries = new PeriodCollection(Period::make(date('Y-m-d', strtotime($start_time)) . ' 08:00:00', date('Y-m-d', strtotime($start_time)) . ' 20:00:00', Precision::MINUTE()));
-//                    $boundaries = new PeriodCollection(Period::make(date('Y-m-d', strtotime($start_time)) . ' 08:00:00', date('Y-m-d', strtotime($start_time)) . ' 20:00:00', Precision::MINUTE(), Boundaries::EXCLUDE_END()));
                     $gaps = $boundaries->subtract($periods);
                     $period = new PeriodCollection(Period::make($start_time, $end_time, Precision::MINUTE()));
                     if (!$periods->isEmpty() && $period->overlapAll($periods)) {
@@ -70,7 +68,7 @@ class ReportRequest extends FormRequest
                         }
 
                         if ($closestAfter && $closestBefore) {
-                            if ($closestBefore->end() - $period[0]->start() < $closestAfter->start() - $period[0]->start()) {
+                            if ($closestBefore->end()->getTimestamp() - $period[0]->start()->getTimestamp() < $closestAfter->start()->getTimestamp() - $period[0]->start()->getTimestamp()) {
                                 $closestPeriod = $closestBefore;
                             }
                             else {
