@@ -52,7 +52,7 @@ class ReportRequest extends FormRequest
                     $boundaries = new PeriodCollection(Period::make(date('Y-m-d', strtotime($start_time)) . ' 08:00:00', date('Y-m-d', strtotime($start_time)) . ' 20:00:00', Precision::MINUTE()));
                     $gaps = $boundaries->subtract($periods);
                     $period = new PeriodCollection(Period::make($start_time, $end_time, Precision::MINUTE()));
-                    if (!$periods->isEmpty() && $period->overlapAll($periods)) {
+                    if (!$periods->isEmpty() && !$period->overlapAll($periods)->isEmpty()) {
                         $closestAfter = null;
                         $closestBefore = null;
                         $closestPeriod = null;
