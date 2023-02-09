@@ -13,6 +13,7 @@ class Report extends Model
     use SoftDeletes;
 
     protected $guarded = false;
+    protected $with = ['category'];
 
     public function user()
     {
@@ -22,6 +23,11 @@ class Report extends Model
     public function conference()
     {
         return $this->belongsTo(Conference::class, 'conference_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function comments()

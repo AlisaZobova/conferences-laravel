@@ -17,12 +17,17 @@ class Conference extends Model
 
     protected $table = 'conferences';
     protected $guarded = false;
-    protected $with = ['country', 'reports'];
+    protected $with = ['country', 'reports', 'category'];
     protected $appends = ['available'];
 
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function user()
