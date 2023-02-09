@@ -29,6 +29,7 @@ class ConferenceRequest extends FormRequest
             'conf_date' => 'required|after_or_equal:' . now()->format('Y-m-d'),
             'latitude' => 'numeric|between:-90,90|nullable',
             'longitude' => 'numeric|between:-180,180|nullable',
+            'category_id' => 'integer|nullable'
         ];
     }
 }

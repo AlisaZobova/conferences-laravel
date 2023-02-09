@@ -116,6 +116,7 @@ class ReportRequest extends FormRequest
             ],
             'description' => 'string|nullable',
             'presentation' => 'nullable|file|mimes:ppx,pptx|max:10240',
+            'category_id' => 'integer|nullable'
         ];
     }
 }
