@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommentController;
@@ -51,6 +52,8 @@ Route::middleware('auth')->group(
         Route::get('/comments/{comment}', [ CommentController::class, 'show' ]);
         Route::post('/comments', [ CommentController::class, 'store' ]);
         Route::patch('/comments/{comment}', [ CommentController::class, 'update' ]);
+        Route::get('/categories', [ CategoryController::class, 'index' ]);
+        Route::get('/categories/{category}', [ CategoryController::class, 'show' ]);
     }
 );
 
@@ -71,6 +74,14 @@ Route::middleware(['auth', 'role:Announcer|Listener'])->group(
     function () {
         Route::post('/conferences/{conference}/join', [ UserController::class, 'join' ]);
         Route::post('/conferences/{conference}/cancel', [ UserController::class, 'cancel' ]);
+    }
+);
+
+Route::middleware(['auth', 'role:Admin'])->group(
+    function () {
+        Route::post('/categories', [ CategoryController::class, 'store' ]);
+        Route::patch('/categories/{category}', [ CategoryController::class, 'update' ]);
+        Route::delete('/categories/{category}', [ CategoryController::class, 'destroy' ]);
     }
 );
 
