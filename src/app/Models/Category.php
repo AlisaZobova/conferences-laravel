@@ -11,6 +11,16 @@ class Category extends Model
 
     protected $appends = ['path'];
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'category_id');
+    }
+
+    public function conferences()
+    {
+        return $this->hasMany(Conference::class, 'category_id');
+    }
+
     // One level child
     public function child()
     {

@@ -20,7 +20,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return $category->load('children', 'parents');
+        return $category->load('children', 'parents', 'reports', 'conferences');
     }
 
     public function update(Category $category, Request $request)
