@@ -4,10 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 class Category extends Model
 {
     use HasFactory;
+
+    use SoftDeletes, CascadeSoftDeletes;
+
+    protected $cascadeDeletes = ['children'];
+
+    protected $dates = ['deleted_at'];
 
     protected $appends = ['path'];
 
