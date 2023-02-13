@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommentController;
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(
         Route::patch('/comments/{comment}', [ CommentController::class, 'update' ]);
         Route::get('/categories', [ CategoryController::class, 'index' ]);
         Route::get('/categories/{category}', [ CategoryController::class, 'show' ]);
+        Route::post('/profile', [ ProfileController::class, 'update']);
     }
 );
 
