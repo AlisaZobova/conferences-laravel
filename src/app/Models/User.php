@@ -47,7 +47,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $with = ['roles', 'conferences', 'joinedConferences', 'reports'];
+    protected $with = ['roles', 'conferences', 'joinedConferences', 'reports', 'favorites'];
 
     public function country()
     {
@@ -73,6 +73,11 @@ class User extends Authenticatable
     public function joinedConferences()
     {
         return $this->belongsToMany(Conference::class);
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Report::class);
     }
 
     public function isJoined(Conference $conference)

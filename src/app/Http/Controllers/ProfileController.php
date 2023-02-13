@@ -18,6 +18,6 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return $request->user()->load('roles', 'conferences', 'joinedConferences');
+        return $request->user()->load('roles', 'conferences', 'joinedConferences', 'reports', 'favorites');
     }
 }
