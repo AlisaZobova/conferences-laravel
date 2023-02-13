@@ -32,5 +32,13 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+        $category->conferences()->each(function($conference) {
+            $conference->category()->dissociate();
+            $conference->save();
+        });
+        $category->reports()->each(function($report) {
+            $report->category()->dissociate();
+            $report->save();
+        });
     }
 }
