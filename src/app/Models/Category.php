@@ -10,14 +10,12 @@ use Dyrynda\Database\Support\CascadeSoftDeletes;
 class Category extends Model
 {
     use HasFactory;
-
     use SoftDeletes, CascadeSoftDeletes;
 
     protected $cascadeDeletes = ['children'];
-
     protected $dates = ['deleted_at'];
-
     protected $appends = ['path'];
+    protected $fillable = ['name', 'ancestor_id'];
 
     public static function boot(){
 
