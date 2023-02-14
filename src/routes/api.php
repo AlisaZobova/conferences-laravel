@@ -56,6 +56,8 @@ Route::middleware('auth')->group(
         Route::get('/categories', [ CategoryController::class, 'index' ]);
         Route::get('/categories/{category}', [ CategoryController::class, 'show' ]);
         Route::post('/profile', [ ProfileController::class, 'update']);
+        Route::post('/reports/{report}/add-favorite', [ UserController::class, 'addFavorite' ]);
+        Route::post('/reports/{report}/delete-favorite', [ UserController::class, 'deleteFavorite' ]);
     }
 );
 
@@ -76,9 +78,7 @@ Route::middleware(['auth', 'role:Announcer|Listener'])->group(
     function () {
         Route::post('/conferences/{conference}/join', [ UserController::class, 'join' ]);
         Route::post('/conferences/{conference}/cancel', [ UserController::class, 'cancel' ]);
-        Route::post('/reports/{report}/add-favorite', [ UserController::class, 'addFavorite' ]);
-        Route::post('/reports/{report}/delete-favorite', [ UserController::class, 'deleteFavorite' ]);
-    }
+        }
 );
 
 Route::middleware(['auth', 'role:Admin'])->group(
