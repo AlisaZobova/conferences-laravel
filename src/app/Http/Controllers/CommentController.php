@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentUpdateRequest;
 use App\Models\Comment;
 use App\Models\Report;
 use Illuminate\Http\Request;
@@ -24,9 +25,9 @@ class CommentController extends Controller
         return $comment->load('user', 'report');
     }
 
-    public function update(Comment $comment, Request $request)
+    public function update(Comment $comment, CommentUpdateRequest $request)
     {
-        $comment->update($request->all());
+        $comment->update($request->validated());
         return $comment->load('user', 'report');
     }
 }
