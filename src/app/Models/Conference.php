@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,8 +14,9 @@ use Spatie\Period\Precision;
 class Conference extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
 
+    protected $cascadeDeletes = ['reports'];
     protected $table = 'conferences';
     protected $guarded = false;
     protected $with = ['country', 'reports', 'category'];
