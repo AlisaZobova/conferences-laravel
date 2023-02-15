@@ -25,13 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get(
-    '/',
-    function () {
-        return redirect(\route('conferences.index'));
-    }
-);
-
 Route::get('/conferences', [ ConferenceController::class, 'index' ]);
 Route::get('/countries', [ CountryController::class, 'index' ]);
 
