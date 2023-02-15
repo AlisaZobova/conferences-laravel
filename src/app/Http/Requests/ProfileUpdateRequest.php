@@ -23,7 +23,7 @@ class ProfileUpdateRequest extends FormRequest
             'lastname' => 'string|max:255|required',
             'phone' => 'string|max:20|required',
             'birthdate' => 'required|date|before_or_equal:' . now(),
-            'country' => 'required|integer'
+            'country_id' => 'required|integer'
         ];
     }
 }
