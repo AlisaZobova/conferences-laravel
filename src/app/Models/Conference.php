@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,16 +14,22 @@ use Spatie\Period\Precision;
 class Conference extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
 
+    protected $cascadeDeletes = ['reports'];
     protected $table = 'conferences';
     protected $guarded = false;
-    protected $with = ['country', 'reports'];
+    protected $with = ['country', 'reports', 'category'];
     protected $appends = ['available'];
 
     public function country()
     {
         return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function user()

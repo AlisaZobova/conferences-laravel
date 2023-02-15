@@ -60,7 +60,7 @@
 				}
 			},
 			"request": {
-				"method": "POST",
+				"method": "PATCH",
 				"header": [
 					{
 						"key": "Accept",
@@ -99,11 +99,6 @@
 						{
 							"key": "country",
 							"value": "5",
-							"type": "text"
-						},
-						{
-							"key": "_method",
-							"value": "PATCH",
 							"type": "text"
 						}
 					]
@@ -693,9 +688,25 @@
 		},
 		{
 			"name": "reports",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://zobova-am-api.groupbwt.com/api/reports",
 					"protocol": "http",
@@ -714,9 +725,25 @@
 		},
 		{
 			"name": "store report",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
@@ -775,9 +802,25 @@
 		},
 		{
 			"name": "show report",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://zobova-am-api.groupbwt.com/api/reports/{{report_id}}",
 					"protocol": "http",
@@ -796,10 +839,104 @@
 			"response": []
 		},
 		{
+			"name": "add favorite",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/reports/{{report_id}}/add-favorite",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"reports",
+						"{{report_id}}",
+						"add-favorite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete favorite",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/reports/{{report_id}}/delete-favorite",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"reports",
+						"{{report_id}}",
+						"delete-favorite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "download report presentation",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://zobova-am-api.groupbwt.com/api/reports/{{report_id}}/download",
 					"protocol": "http",
@@ -820,12 +957,22 @@
 		},
 		{
 			"name": "update report",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
-				"method": "POST",
+				"method": "PATCH",
 				"header": [
 					{
-						"key": "_method",
-						"value": "PATCH",
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
 						"type": "text"
 					}
 				],
@@ -877,9 +1024,25 @@
 		},
 		{
 			"name": "delete report",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://zobova-am-api.groupbwt.com/api/reports/{{report_id}}",
 					"protocol": "http",
@@ -899,9 +1062,25 @@
 		},
 		{
 			"name": "comments",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://zobova-am-api.groupbwt.com/api/reports/{{report_id}}/comments",
 					"protocol": "http",
@@ -922,9 +1101,25 @@
 		},
 		{
 			"name": "show comment",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://zobova-am-api.groupbwt.com/api/comments/{{comment_id}}",
 					"protocol": "http",
@@ -944,9 +1139,25 @@
 		},
 		{
 			"name": "store comment",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
@@ -990,12 +1201,22 @@
 		},
 		{
 			"name": "update comment",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
 			"request": {
 				"method": "POST",
 				"header": [
 					{
-						"key": "_method",
-						"value": "PATCH",
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
 						"type": "text"
 					}
 				],
@@ -1026,6 +1247,301 @@
 						"api",
 						"comments",
 						"{{comment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "categories",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/categories",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show category",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/categories/{{category_id}}",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"categories",
+						"{{category_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "store category",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Text",
+							"type": "text"
+						},
+						{
+							"key": "ancestor_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/categories",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update category",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Category",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/categories/{{category_id}}",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"categories",
+						"{{category_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete category",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/categories/{{category_id}}",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"categories",
+						"{{category_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update profile",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "{{email_create}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password_auth}}",
+							"type": "text"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "{{password_create}}",
+							"type": "text"
+						},
+						{
+							"key": "firstname",
+							"value": "John",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "Jackson",
+							"type": "text"
+						},
+						{
+							"key": "birthdate",
+							"value": "2003-13-07",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "*380995824174",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/profile",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"profile"
 					]
 				}
 			},

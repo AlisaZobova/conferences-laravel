@@ -25,12 +25,12 @@ class ReportController extends Controller
 
         $report = Report::create($data);
 
-        return $report->load('user', 'conference', 'comments');
+        return $report->load('user', 'conference', 'comments', 'category');
     }
 
     public function show(Report $report)
     {
-        return $report->load('user', 'conference', 'comments');
+        return $report->load('user', 'conference', 'comments', 'category');
     }
 
     public function update(Report $report, ReportRequest $request)
@@ -52,7 +52,7 @@ class ReportController extends Controller
         }
 
         $report->update($data);
-        return $report->load('user', 'conference', 'comments');
+        return $report->load('user', 'conference', 'comments', 'category');
     }
 
     public function destroy(Report $report)

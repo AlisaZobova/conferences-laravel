@@ -18,7 +18,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return Auth::user()->load('roles', 'conferences', 'joinedConferences', 'reports');
+        return Auth::user()->load('roles', 'conferences', 'joinedConferences', 'reports', 'favorites');
     }
 
     /**
