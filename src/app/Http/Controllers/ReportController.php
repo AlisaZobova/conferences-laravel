@@ -4,12 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReportRequest;
 use App\Models\Report;
+use DateTime;
+use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Report::with('comments')->orderBy('start_time', 'DESC')->get();
+        $reports = Report::with('comments');
+
+        if ($request->query('from')) {
+            $result = [];
+            foreach ($reports->get() as $report) {
+                $start = substr($report->start_time, 11);
+                if ($start >= $request->query('from')) {
+                    array_push($result, $report->id);
+                }
+            }
+            $reports = $reports->whereIn('id', $result);
+        }
+        if ($request->query('to')) {
+            $result = [];
+            foreach ($reports->get() as $report) {
+                $end = substr($report->end_time, 11);
+                if ($end <= $request->query('to')) {
+                    array_push($result, $report->id);
+                }
+            }
+            $reports = $reports->whereIn('id', $result);
+        }
+        if ($request->query('duration')) {
+            $result = [];
+            foreach ($reports->get() as $report) {
+                $end = new DateTime($report->end_time);
+                $start = new DateTime($report->start_time);
+                $timeDiff = $end->diff($start);
+                $minutes = $timeDiff->h * 60 + $timeDiff->i;
+                if ($minutes <= $request->query('duration')) {
+                    array_push($result, $report->id);
+                }
+            }
+            $reports = $reports->whereIn('id',  $result);
+        }
+        if ($request->query('category')) {
+            $categories = explode(',', $request->query('category'));
+            $reports = $reports->whereIn('category_id', $categories);
+        }
+        return $reports->orderBy('start_time', 'DESC')->paginate(12);
     }
 
 
