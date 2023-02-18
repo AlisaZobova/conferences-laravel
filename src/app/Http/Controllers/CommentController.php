@@ -11,7 +11,7 @@ class CommentController extends Controller
 {
     public function index(Report $report)
     {
-        return Comment::where('report_id', $report->id)->get();
+        return Comment::with('user', 'report')->where('report_id', $report->id)->get();
     }
 
     public function store(Request $request)
