@@ -6,14 +6,38 @@ use App\Http\Requests\ConferenceRequest;
 use App\Models\Conference;
 use App\Models\Country;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class ConferenceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return Conference::orderBy('conf_date', 'DESC')->paginate(15);
-    }
+        $conferences = Conference::with('country', 'reports', 'category');
 
+        if ($request->query('from')) {
+            $from = new \DateTime($request->query('from'));
+            $conferences = $conferences->whereDate('conf_date', '>=', $from);
+        }
+        if ($request->query('to')) {
+            $to = new \DateTime($request->query('to'));
+            $conferences = $conferences->whereDate('conf_date', '<=', $to);
+        }
+        if ($request->query('reports')) {
+            $result = [];
+            foreach ($conferences->get() as $conference) {
+                $reportsCount = count($conference->reports);
+                if ($reportsCount === intval($request->query('reports'))) {
+                    array_push($result, $conference->id);
+                }
+            }
+            $conferences = $conferences->whereIn('id',  $result);
+        }
+        if ($request->query('category')) {
+            $categories = explode(',', $request->query('category'));
+            $conferences = $conferences->whereIn('category_id', $categories);
+        }
+        return $conferences->orderBy('conf_date', 'DESC')->paginate(15);
+    }
 
     public function store(ConferenceRequest $request)
     {

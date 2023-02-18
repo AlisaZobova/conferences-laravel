@@ -19,7 +19,7 @@ class Conference extends Model
     protected $cascadeDeletes = ['reports'];
     protected $table = 'conferences';
     protected $guarded = false;
-    protected $with = ['country', 'reports', 'category'];
+//    protected $with = ['country', 'reports', 'category'];
     protected $appends = ['available'];
 
     public function country()
