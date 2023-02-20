@@ -24,9 +24,10 @@ class ConferenceController extends Controller
         }
         if ($request->query('reports')) {
             $result = [];
+            $range = explode('-', $request->query('reports'));
             foreach ($conferences->get() as $conference) {
                 $reportsCount = count($conference->reports);
-                if ($reportsCount === intval($request->query('reports'))) {
+                if ($reportsCount >= intval($range[0]) && $reportsCount <= intval($range[1])) {
                     array_push($result, $conference->id);
                 }
             }

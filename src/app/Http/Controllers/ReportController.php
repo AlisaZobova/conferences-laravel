@@ -35,12 +35,13 @@ class ReportController extends Controller
         }
         if ($request->query('duration')) {
             $result = [];
+            $range = explode('-', $request->query('duration'));
             foreach ($reports->get() as $report) {
                 $end = new DateTime($report->end_time);
                 $start = new DateTime($report->start_time);
                 $timeDiff = $end->diff($start);
                 $minutes = $timeDiff->h * 60 + $timeDiff->i;
-                if ($minutes <= $request->query('duration')) {
+                if ($minutes >= $range[0] && $minutes <= $range[1]) {
                     array_push($result, $report->id);
                 }
             }
