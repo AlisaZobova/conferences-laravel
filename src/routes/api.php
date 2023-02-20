@@ -38,8 +38,10 @@ Route::group(
 Route::middleware('auth')->group(
     function () {
         Route::get('user/{user}', [UserController::class, 'getUser']);
+        Route::get('/conferences/search', [ ConferenceController::class, 'search' ]);
         Route::get('/conferences/{conference}', [ ConferenceController::class, 'show' ]);
         Route::get('/reports', [ ReportController::class, 'index' ]);
+        Route::get('/reports/search', [ ReportController::class, 'search' ]);
         Route::get('/reports/{report}', [ ReportController::class, 'show' ]);
         Route::get('/reports/{report}/download', [ ReportController::class, 'download' ]);
         Route::get('reports/{report}/comments', [ CommentController::class, 'index' ]);

@@ -40,6 +40,16 @@ class ConferenceController extends Controller
         return $conferences->orderBy('conf_date', 'DESC')->paginate(15);
     }
 
+    public function search(Request $request)
+    {
+        if ($request->query('title')) {
+            $conferences = Conference::whereRaw("UPPER(title) LIKE '%". strtoupper($request->query('title'))."%'");
+            return $conferences->orderBy('conf_date', 'DESC')->get();
+        }
+
+        return Conference::all();
+    }
+
     public function store(ConferenceRequest $request)
     {
         $data = $request->validated();

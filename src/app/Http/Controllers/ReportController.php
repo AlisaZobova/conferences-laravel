@@ -54,6 +54,15 @@ class ReportController extends Controller
         return $reports->orderBy('start_time', 'DESC')->paginate(12);
     }
 
+    public function search(Request $request)
+    {
+        if ($request->query('topic')) {
+            $reports = Report::whereRaw("UPPER(topic) LIKE '%". strtoupper($request->query('topic'))."%'");
+            return $reports->orderBy('start_time', 'DESC')->get();
+        }
+
+        return Report::all();
+    }
 
     public function store(ReportRequest $request)
     {
