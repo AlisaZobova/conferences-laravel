@@ -47,7 +47,6 @@ Route::middleware('auth')->group(
         Route::get('reports/{report}/comments', [ CommentController::class, 'index' ]);
         Route::get('/comments/{comment}', [ CommentController::class, 'show' ]);
         Route::post('/comments', [ CommentController::class, 'store' ]);
-        Route::patch('/comments/{comment}', [ CommentController::class, 'update' ]);
         Route::get('/categories', [ CategoryController::class, 'index' ]);
         Route::get('/categories/{category}', [ CategoryController::class, 'show' ]);
         Route::post('/profile', [ ProfileController::class, 'update']);
@@ -89,6 +88,13 @@ Route::group(
     ['middleware' => ['permission:update conference', 'creator']],
     function () {
         Route::patch('/conferences/{conference}', [ ConferenceController::class, 'update' ]);
+    }
+);
+
+Route::group(
+    ['middleware' => ['auth', 'comment_author']],
+    function () {
+        Route::patch('/comments/{comment}', [ CommentController::class, 'update' ]);
     }
 );
 
