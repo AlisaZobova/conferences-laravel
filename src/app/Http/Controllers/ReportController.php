@@ -90,7 +90,7 @@ class ReportController extends Controller
 
         if ($data['presentation']) {
             if ($report->presentation) {
-                $filename = public_path('upload') . '\\' . $report->presentation;
+                $filename = public_path('upload/'. $report->presentation);
                 unlink($filename);
             }
             $fileName = time() . '_' . $data['presentation']->getClientOriginalName();
