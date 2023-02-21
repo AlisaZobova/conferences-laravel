@@ -26,7 +26,7 @@ class CommentUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'publication_date' => ['required',
+            'publication_date' => ['required', 'date',
                 function ($attribute, $value, $fail) {
                 $report = Comment::find($this->request->get('id'));
                 $new = new \DateTime($value);
