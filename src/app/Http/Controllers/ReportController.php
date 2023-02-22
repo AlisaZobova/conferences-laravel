@@ -90,7 +90,8 @@ class ReportController extends Controller
 
         if ($data['presentation']) {
             if ($report->presentation) {
-                $filename = public_path('upload') . '\\' . $report->presentation;
+                $delimeter = PHP_OS_FAMILY === 'Windows' ? '\\' : '/';
+                $filename = public_path('upload') . $delimeter . $report->presentation;
                 unlink($filename);
             }
             $fileName = time() . '_' . $data['presentation']->getClientOriginalName();
@@ -113,11 +114,13 @@ class ReportController extends Controller
 
     public function download(Report $report)
     {
-        $file = public_path('upload') . '\\' . $report->presentation;
+        $delimeter = PHP_OS_FAMILY === 'Windows' ? '\\' : '/';
+        $file = public_path('upload') . $delimeter . $report->presentation;
         $ext = pathinfo($file, PATHINFO_EXTENSION);
         $headers = [
             'Content-Type' => $ext === '.ppt' ? 'application/vnd.ms-powerpoint' : 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         ];
+
         return \response()->download($file, $report->presentation, $headers);
     }
 }
