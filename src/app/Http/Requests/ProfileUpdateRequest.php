@@ -17,7 +17,14 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email|max:255',
+            'email' => ['required','string','email','max:255', function ($attribute, $value, $fail) {
+                $email = $this->request->get('email');
+                if ($email != User::find($this->request->get('id'))->email) {
+                    if(User::where('email', $email)->first()){
+                        $fail('This email already exists');
+                    }
+                }
+            },],
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'firstname' => 'string|max:255|required',
             'lastname' => 'string|max:255|required',
