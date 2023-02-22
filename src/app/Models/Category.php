@@ -17,24 +17,6 @@ class Category extends Model
     protected $appends = ['path'];
     protected $fillable = ['name', 'ancestor_id'];
 
-    public static function boot(){
-
-        parent::boot();
-
-        static::deleted(function($category)
-        {
-            $category->conferences()->each(function($conference) {
-                $conference->category()->dissociate();
-                $conference->save();
-            });
-            $category->reports()->each(function($report) {
-                $report->category()->dissociate();
-                $report->save();
-            });
-        });
-
-    }
-
     public function reports()
     {
         return $this->hasMany(Report::class, 'category_id');
