@@ -49,7 +49,6 @@ Route::middleware('auth')->group(
         Route::post('/comments', [ CommentController::class, 'store' ]);
         Route::get('/categories', [ CategoryController::class, 'index' ]);
         Route::get('/categories/{category}', [ CategoryController::class, 'show' ]);
-        Route::post('/profile', [ ProfileController::class, 'update']);
         Route::post('/reports/{report}/add-favorite', [ UserController::class, 'addFavorite' ]);
         Route::post('/reports/{report}/delete-favorite', [ UserController::class, 'deleteFavorite' ]);
     }
@@ -58,6 +57,12 @@ Route::middleware('auth')->group(
 Route::middleware(['auth', 'role:Announcer'])->group(
     function () {
         Route::post('/reports', [ ReportController::class, 'store' ]);
+    }
+);
+
+Route::middleware(['auth', 'account_owner'])->group(
+    function () {
+        Route::post('/profile', [ UserController::class, 'update']);
     }
 );
 

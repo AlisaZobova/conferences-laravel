@@ -18,7 +18,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'email' => 'required|string|email|max:255',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'firstname' => 'string|max:255|required',
             'lastname' => 'string|max:255|required',
             'phone' => 'string|max:20|required',
