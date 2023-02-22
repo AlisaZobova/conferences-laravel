@@ -2,13 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Conference;
 use App\Models\Report;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function update(ProfileUpdateRequest $request)
+    {
+        $data = $request->validated();
+        if ($data['password']) {
+            $data['password'] = Hash::make($data['password']);
+        }
+        else {
+            unset($data['password']);
+        }
+        $request->user()->update($data);
+
+        return $request->user()->load('roles', 'conferences', 'joinedConferences', 'reports', 'favorites');
+    }
+
     public function join(Conference $conference)
     {
         Auth::user()->joinedConferences()->attach($conference);
