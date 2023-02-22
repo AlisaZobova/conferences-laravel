@@ -21,9 +21,11 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get(
+    '/user', function (Request $request) {
+        return $request->user();
+    }
+);
 
 Route::get('/conferences', [ ConferenceController::class, 'index' ]);
 Route::get('/countries', [ CountryController::class, 'index' ]);
@@ -77,7 +79,7 @@ Route::middleware(['auth', 'role:Announcer|Listener'])->group(
     function () {
         Route::post('/conferences/{conference}/join', [ UserController::class, 'join' ]);
         Route::post('/conferences/{conference}/cancel', [ UserController::class, 'cancel' ]);
-        }
+    }
 );
 
 Route::middleware(['auth', 'role:Admin'])->group(

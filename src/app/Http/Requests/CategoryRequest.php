@@ -29,7 +29,7 @@ class CategoryRequest extends FormRequest
             'name' => ['required','string','max:255', function ($attribute, $value, $fail) {
                 $name = $this->request->get('name');
                 if (!$this->request->get('id') || $name != Category::find($this->request->get('id'))->name) {
-                    if(Category::where('name', $name)->first()){
+                    if(Category::where('name', $name)->first()) {
                         $fail('This name already exists');
                     }
                 }

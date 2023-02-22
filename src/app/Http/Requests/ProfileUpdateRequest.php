@@ -20,7 +20,7 @@ class ProfileUpdateRequest extends FormRequest
             'email' => ['required','string','email','max:255', function ($attribute, $value, $fail) {
                 $email = $this->request->get('email');
                 if ($email != User::find($this->request->get('id'))->email) {
-                    if(User::where('email', $email)->first()){
+                    if(User::where('email', $email)->first()) {
                         $fail('This email already exists');
                     }
                 }

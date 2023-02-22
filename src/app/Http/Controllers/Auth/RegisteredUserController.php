@@ -22,10 +22,12 @@ class RegisteredUserController extends Controller
     {
         $data = $request->validated();
 
-        $user = User::create([
+        $user = User::create(
+            [
             'password' => Hash::make($data['password']),
             'email' => $data['email'],
-        ]);
+            ]
+        );
 
         $user->assignRole($data['type']);
 

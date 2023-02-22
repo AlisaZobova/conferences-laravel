@@ -47,7 +47,8 @@ class Category extends Model
     }
 
     // Recursive parents
-    public function parents() {
+    public function parents()
+    {
         return $this->belongsTo(Category::class, 'ancestor_id')
             ->with('parent');
     }
