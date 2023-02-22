@@ -75,5 +75,7 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'creator' => \App\Http\Middleware\ConferenceCreatorMiddleware::class,
         'report_creator' => \App\Http\Middleware\ReportCreatorMiddleware::class,
+        'comment_author' => \App\Http\Middleware\CommentAuthorMiddleware::class,
+        'account_owner' => \App\Http\Middleware\AccountOwnerMiddleware::class,
     ];
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentCreateRequest;
 use App\Http\Requests\CommentUpdateRequest;
 use App\Models\Comment;
 use App\Models\Report;
@@ -11,12 +12,13 @@ class CommentController extends Controller
 {
     public function index(Report $report)
     {
-        return Comment::where('report_id', $report->id)->get();
+        return Comment::with('user', 'report')->where('report_id', $report->id)->get();
     }
 
-    public function store(Request $request)
+    public function store(CommentCreateRequest $request)
     {
-        $comment = Comment::create($request->all());
+        $data = $request->validated();
+        $comment = Comment::create($data);
         return $comment->load('user', 'report');
     }
 

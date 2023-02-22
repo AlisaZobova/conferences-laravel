@@ -2,11 +2,13 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Conference;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
-class ReportCreatorMiddleware
+class CommentAuthorMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,7 +19,7 @@ class ReportCreatorMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $permission = $request['report']->user_id === Auth::id();
+        $permission = $request['comment']->user_id === Auth::id();
 
         if (!$permission) {
             abort(403);

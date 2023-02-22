@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ReportCreatorMiddleware
+class AccountOwnerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class ReportCreatorMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $permission = $request['report']->user_id === Auth::id();
+        $permission = $request['id'] === Auth::id();
 
         if (!$permission) {
             abort(403);

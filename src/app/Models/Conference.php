@@ -19,7 +19,7 @@ class Conference extends Model
     protected $cascadeDeletes = ['reports'];
     protected $table = 'conferences';
     protected $guarded = false;
-    protected $with = ['country', 'reports', 'category'];
+    //    protected $with = ['country', 'reports', 'category'];
     protected $appends = ['available'];
 
     public function country()
@@ -44,9 +44,13 @@ class Conference extends Model
 
     public function getAvailableAttribute()
     {
-        $boundaries = new PeriodCollection(Period::make(date('Y-m-d', strtotime($this->conf_date)) .
-            ' 08:00:00', date('Y-m-d', strtotime($this->conf_date)) . ' 20:00:00',
-            Precision::MINUTE(), Boundaries::EXCLUDE_END()));
+        $boundaries = new PeriodCollection(
+            Period::make(
+                date('Y-m-d', strtotime($this->conf_date)) .
+                ' 08:00:00', date('Y-m-d', strtotime($this->conf_date)) . ' 20:00:00',
+                Precision::MINUTE(), Boundaries::EXCLUDE_END()
+            )
+        );
         $periods = new PeriodCollection();
         $reports = Report::where('conference_id', $this->id)->get();
 

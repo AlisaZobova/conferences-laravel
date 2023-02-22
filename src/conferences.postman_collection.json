@@ -28,6 +28,73 @@
 			"response": []
 		},
 		{
+			"name": "conferences filters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/conferences?from=2000-01-01&to=2025-02-02&reports=0-15&category=12",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"conferences"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "2000-01-01"
+						},
+						{
+							"key": "to",
+							"value": "2025-02-02"
+						},
+						{
+							"key": "reports",
+							"value": "0-15"
+						},
+						{
+							"key": "category",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "conferences search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/conferences/search?title=o",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"conferences",
+						"search"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "o"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "show conference",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
@@ -718,6 +785,105 @@
 					"path": [
 						"api",
 						"reports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reports filters",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/reports?from=12:00:00&to=16:00:00&duration=1-20&category=12",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"reports"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "12:00:00"
+						},
+						{
+							"key": "to",
+							"value": "16:00:00"
+						},
+						{
+							"key": "duration",
+							"value": "1-20"
+						},
+						{
+							"key": "category",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reports search",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/reports/search?topic=o",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"reports",
+						"search"
+					],
+					"query": [
+						{
+							"key": "topic",
+							"value": "o"
+						}
 					]
 				}
 			},
