@@ -71,6 +71,11 @@ Route::middleware(['auth', 'account_owner'])->group(
 Route::middleware(['auth', 'role:Announcer', 'report_creator'])->group(
     function () {
         Route::patch('/reports/{report}', [ ReportController::class, 'update' ]);
+    }
+);
+
+Route::middleware(['auth', 'report_creator'])->group(
+    function () {
         Route::delete('/reports/{report}', [ ReportController::class, 'destroy' ]);
     }
 );
