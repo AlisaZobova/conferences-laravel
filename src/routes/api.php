@@ -41,10 +41,10 @@ Route::middleware('auth')->group(
     function () {
         Route::get('user/{user}', [UserController::class, 'getUser']);
         Route::get('/conferences/search', [ ConferenceController::class, 'search' ]);
-        Route::get('/conferences/{conference}', [ ConferenceController::class, 'show' ]);
+        Route::get('/conferences/{conference}', [ ConferenceController::class, 'show' ])->whereNumber('conference');
         Route::get('/reports', [ ReportController::class, 'index' ]);
         Route::get('/reports/search', [ ReportController::class, 'search' ]);
-        Route::get('/reports/{report}', [ ReportController::class, 'show' ]);
+        Route::get('/reports/{report}', [ ReportController::class, 'show' ])->whereNumber('report');;
         Route::get('/reports/{report}/download', [ ReportController::class, 'download' ]);
         Route::get('reports/{report}/comments', [ CommentController::class, 'index' ]);
         Route::get('/comments/{comment}', [ CommentController::class, 'show' ]);
@@ -92,6 +92,10 @@ Route::middleware(['auth', 'role:Admin'])->group(
         Route::post('/categories', [ CategoryController::class, 'store' ]);
         Route::patch('/categories/{category}', [ CategoryController::class, 'update' ]);
         Route::delete('/categories/{category}', [ CategoryController::class, 'destroy' ]);
+        Route::get('/conferences/export', [ ConferenceController::class, 'export' ]);
+        Route::get('/reports/export', [ ReportController::class, 'export' ]);
+        Route::get('reports/{report}/comments/export', [ CommentController::class, 'export' ]);
+        Route::get('conferences/{conference}/export-listeners', [ ConferenceController::class, 'exportListeners' ]);
     }
 );
 

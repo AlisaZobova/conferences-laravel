@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReportRequest;
+use App\Jobs\ProcessReportsExport;
 use App\Models\Report;
 use DateTime;
 use Illuminate\Http\Request;
@@ -122,5 +123,9 @@ class ReportController extends Controller
         ];
 
         return \response()->download($file, $report->presentation, $headers);
+    }
+
+    public function export() {
+        ProcessReportsExport::dispatch()->delay(now()->addSeconds(5));;
     }
 }

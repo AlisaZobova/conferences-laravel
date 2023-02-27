@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FinishedExport;
 use App\Http\Requests\ConferenceRequest;
+use App\Jobs\ProcessConferenceListenersExport;
+use App\Jobs\ProcessConferencesExport;
 use App\Models\Conference;
 use App\Models\Country;
 use App\Models\User;
@@ -78,5 +81,13 @@ class ConferenceController extends Controller
     public function destroy(Conference $conference)
     {
         $conference->delete();
+    }
+
+    public function export() {
+        ProcessConferencesExport::dispatch()->delay(now()->addSeconds(5));;
+    }
+
+    public function exportListeners(Conference $conference) {
+        ProcessConferenceListenersExport::dispatch($conference)->delay(now()->addSeconds(5));;
     }
 }
