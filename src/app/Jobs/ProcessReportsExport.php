@@ -43,7 +43,7 @@ class ProcessReportsExport implements ShouldQueue
 
         foreach ($reports as $report) {
 
-            $row['Topic'] = $report->title;
+            $row['Topic'] = $report->topic;
             $row['Time'] = $report->start_time . ' - ' . $report->end_time;
 //            $row['Time'] = substr($report->start_time, 11, -3) . ' - ' . substr($report->end_time, 11, -3);
             $row['Description'] = $report->description;
