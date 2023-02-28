@@ -36,11 +36,6 @@ class ProcessConferencesExport implements ShouldQueue
 
         $conferences = Conference::all();
 
-        $headers = array(
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$fileName",
-        );
-
         $columns = array('Title', 'Date', 'Address', 'Country', 'Reports', 'Listeners');
 
         $file = fopen($path, 'w');
@@ -65,10 +60,7 @@ class ProcessConferencesExport implements ShouldQueue
 
         fclose($file);
 
-        FinishedExport::dispatch();
-
-        return response()->download($path, $fileName, $headers);
+        FinishedExport::dispatch('/export/' . $fileName);
 
     }
-
 }

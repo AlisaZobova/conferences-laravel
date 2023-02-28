@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\FinishedExport;
 use App\Models\Report;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -35,11 +36,6 @@ class ProcessReportCommentsExport implements ShouldQueue
         $delimeter = PHP_OS_FAMILY === 'Windows' ? '\\' : '/';
         $path = public_path('export') . $delimeter . $fileName;
 
-        $headers = array(
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$fileName",
-        );
-
         $comments = $this->report->comments;
 
         $columns = array('User', 'Date', 'Content');
@@ -58,6 +54,6 @@ class ProcessReportCommentsExport implements ShouldQueue
 
         fclose($file);
 
-        return response()->download($path, $fileName, $headers);
+        FinishedExport::dispatch('/export/' . $fileName);
     }
 }

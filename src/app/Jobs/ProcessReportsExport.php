@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\FinishedExport;
 use App\Models\Report;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -35,11 +36,6 @@ class ProcessReportsExport implements ShouldQueue
 
         $reports = Report::all();
 
-        $headers = array(
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$fileName",
-        );
-
         $columns = array('Topic', 'Time', 'Description', 'Comments');
 
         $file = fopen($path, 'w');
@@ -59,6 +55,6 @@ class ProcessReportsExport implements ShouldQueue
 
         fclose($file);
 
-        return response()->download($path, $fileName, $headers);
+        FinishedExport::dispatch('/export/' . $fileName);
     }
 }

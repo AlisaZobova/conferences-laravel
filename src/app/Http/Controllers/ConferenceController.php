@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\FinishedExport;
+use App\Events\TestEvent;
 use App\Http\Requests\ConferenceRequest;
 use App\Jobs\ProcessConferenceListenersExport;
 use App\Jobs\ProcessConferencesExport;
@@ -84,10 +85,10 @@ class ConferenceController extends Controller
     }
 
     public function export() {
-        ProcessConferencesExport::dispatch()->delay(now()->addSeconds(5));;
+        ProcessConferencesExport::dispatch()->delay(now()->addSeconds(5));
     }
 
     public function exportListeners(Conference $conference) {
-        ProcessConferenceListenersExport::dispatch($conference)->delay(now()->addSeconds(5));;
+        ProcessConferenceListenersExport::dispatch($conference)->delay(now()->addSeconds(5));
     }
 }

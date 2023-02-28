@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\FinishedExport;
 use App\Models\Conference;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -35,11 +36,6 @@ class ProcessConferenceListenersExport implements ShouldQueue
         $delimeter = PHP_OS_FAMILY === 'Windows' ? '\\' : '/';
         $path = public_path('export') . $delimeter . $fileName;
 
-        $headers = array(
-            "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$fileName",
-        );
-
         $listeners = $this->conference->users()->whereHas(
             'roles', function($q){
             $q->where('name', 'Listener');
@@ -64,6 +60,6 @@ class ProcessConferenceListenersExport implements ShouldQueue
 
         fclose($file);
 
-        return response()->download($path, $fileName, $headers);
+        FinishedExport::dispatch('/export/' . $fileName);
     }
 }
