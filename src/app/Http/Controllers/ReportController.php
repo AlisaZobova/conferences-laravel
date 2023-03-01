@@ -14,43 +14,21 @@ class ReportController extends Controller
     {
         $reports = Report::with('comments');
 
-        if ($request->query('from')) {
-            $result = [];
-            foreach ($reports->get() as $report) {
-                $start = substr($report->start_time, 11);
-                if ($start >= $request->query('from')) {
-                    array_push($result, $report->id);
-                }
+        foreach ($request->query() as $key=>$value) {
+            if ($key === 'from') {
+                $reports->whereTime('start_time', '>=', $value);
             }
-            $reports = $reports->whereIn('id', $result);
-        }
-        if ($request->query('to')) {
-            $result = [];
-            foreach ($reports->get() as $report) {
-                $end = substr($report->end_time, 11);
-                if ($end <= $request->query('to')) {
-                    array_push($result, $report->id);
-                }
+            if ($key === 'to') {
+                $reports->whereTime('end_time', '<=', $value);
             }
-            $reports = $reports->whereIn('id', $result);
-        }
-        if ($request->query('duration')) {
-            $result = [];
-            $range = explode('-', $request->query('duration'));
-            foreach ($reports->get() as $report) {
-                $end = new DateTime($report->end_time);
-                $start = new DateTime($report->start_time);
-                $timeDiff = $end->diff($start);
-                $minutes = $timeDiff->h * 60 + $timeDiff->i;
-                if ($minutes >= $range[0] && $minutes <= $range[1]) {
-                    array_push($result, $report->id);
-                }
+            if ($key === 'duration') {
+                $range = explode('-', $value);
+                $reports->whereRaw("TIMESTAMPDIFF(minute, start_time, end_time) BETWEEN " . $range[0] . " AND " . $range[1]);
             }
-            $reports = $reports->whereIn('id',  $result);
-        }
-        if ($request->query('category')) {
-            $categories = explode(',', $request->query('category'));
-            $reports = $reports->whereIn('category_id', $categories);
+            if ($key === 'category') {
+                $categories = explode(',', $value);
+                $reports->whereIn('category_id', $categories);
+            }
         }
         return $reports->orderBy('start_time', 'DESC')->paginate(12);
     }

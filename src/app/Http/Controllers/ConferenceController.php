@@ -18,29 +18,25 @@ class ConferenceController extends Controller
     {
         $conferences = Conference::with('country', 'reports', 'category');
 
-        if ($request->query('from')) {
-            $from = new \DateTime($request->query('from'));
-            $conferences = $conferences->whereDate('conf_date', '>=', $from);
-        }
-        if ($request->query('to')) {
-            $to = new \DateTime($request->query('to'));
-            $conferences = $conferences->whereDate('conf_date', '<=', $to);
-        }
-        if ($request->query('reports')) {
-            $result = [];
-            $range = explode('-', $request->query('reports'));
-            foreach ($conferences->get() as $conference) {
-                $reportsCount = count($conference->reports);
-                if ($reportsCount >= intval($range[0]) && $reportsCount <= intval($range[1])) {
-                    array_push($result, $conference->id);
-                }
+        foreach ($request->query() as $key=>$value) {
+            if ($key === 'from') {
+                $conferences->whereDate('conf_date', '>=', $value);
             }
-            $conferences = $conferences->whereIn('id',  $result);
+            if ($key === 'to') {
+                $conferences->whereDate('conf_date', '<=', $value);
+            }
+            if ($key === 'reports') {
+                $range = explode('-', $value);
+                $conferences->withCount('reports')->
+                having('reports_count', '>=', $range[0], 'and')->
+                having('reports_count', '<=', $range[1]);
+            }
+            if ($key === 'category') {
+                $categories = explode(',', $value);
+                $conferences->whereIn('category_id', $categories);
+            }
         }
-        if ($request->query('category')) {
-            $categories = explode(',', $request->query('category'));
-            $conferences = $conferences->whereIn('category_id', $categories);
-        }
+
         return $conferences->orderBy('conf_date', 'DESC')->paginate(15);
     }
 
