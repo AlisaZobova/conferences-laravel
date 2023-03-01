@@ -22,6 +22,7 @@ class AdminDeleteReport extends Mailable implements ShouldQueue
     public function __construct(
         public Conference $conference
     ) {
+        $this->queue = 'emails';
     }
 
     /**

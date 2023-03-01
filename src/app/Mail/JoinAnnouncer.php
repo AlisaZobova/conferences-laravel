@@ -24,6 +24,7 @@ class JoinAnnouncer extends Mailable implements ShouldQueue
         public Report $report,
         public User $user
     ) {
+        $this->queue = 'emails';
     }
 
     /**

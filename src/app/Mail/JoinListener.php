@@ -24,6 +24,7 @@ class JoinListener extends Mailable implements ShouldQueue
         public Conference $conference,
         public User $user
     ) {
+        $this->queue = 'emails';
     }
 
     /**
