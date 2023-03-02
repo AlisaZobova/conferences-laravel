@@ -21,13 +21,13 @@ class ZoomMeetingController extends Controller
             'Content-Type'  => 'application/json',
             'Accept'        => 'application/json',
         ];
-        $this->baseUrl = env('ZOOM_API_URL', '');
+        $this->baseUrl = config('zoom.url');
     }
 
     public function generateZoomToken()
     {
-        $key = env('ZOOM_API_KEY', '');
-        $secret = env('ZOOM_API_SECRET', '');
+        $key = config('zoom.key');
+        $secret = config('zoom.secret');
         $payload = [
             'iss' => $key,
             'exp' => time() + 3600,
