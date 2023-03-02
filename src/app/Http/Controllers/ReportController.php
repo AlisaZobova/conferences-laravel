@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReportRequest;
 use App\Jobs\ProcessReportsExport;
 use App\Models\Report;
-use DateTime;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -46,6 +45,11 @@ class ReportController extends Controller
     public function store(ReportRequest $request)
     {
         $data = $request->validated();
+
+        if ($request->get('online')) {
+            $zoom = new ZoomMeetingController();
+            $data = $zoom->store($data);
+        }
 
         if ($data['presentation']) {
             $fileName = time() . '_' . $data['presentation']->getClientOriginalName();
