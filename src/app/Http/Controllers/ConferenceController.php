@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\FinishedExport;
-use App\Events\TestEvent;
 use App\Http\Requests\ConferenceRequest;
 use App\Jobs\ProcessConferenceListenersExport;
 use App\Jobs\ProcessConferencesExport;
