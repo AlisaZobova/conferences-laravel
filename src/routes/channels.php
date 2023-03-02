@@ -18,3 +18,7 @@ Broadcast::channel(
         return (int) $user->id === (int) $id;
     }
 );
+
+Broadcast::channel('exportDownload', function () {
+    return true;
+});

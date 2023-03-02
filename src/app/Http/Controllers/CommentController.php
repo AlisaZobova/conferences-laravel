@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentCreateRequest;
 use App\Http\Requests\CommentUpdateRequest;
+use App\Jobs\ProcessReportCommentsExport;
 use App\Models\Comment;
 use App\Models\Report;
 use Illuminate\Http\Request;
@@ -31,5 +32,9 @@ class CommentController extends Controller
     {
         $comment->update($request->validated());
         return $comment->load('user', 'report');
+    }
+
+    public function export(Report $report) {
+        ProcessReportCommentsExport::dispatch($report)->delay(now()->addSeconds(5));;
     }
 }

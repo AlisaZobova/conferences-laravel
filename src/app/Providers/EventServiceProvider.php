@@ -3,7 +3,13 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Comment;
+use App\Models\Conference;
+use App\Models\Report;
 use App\Observers\CategoryObserver;
+use App\Observers\CommentObserver;
+use App\Observers\ConferenceObserver;
+use App\Observers\ReportObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -49,5 +55,8 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $observers = [
         Category::class => [CategoryObserver::class],
+        Conference::class => [ConferenceObserver::class],
+        Report::class => [ReportObserver::class],
+        Comment::class => [CommentObserver::class]
     ];
 }

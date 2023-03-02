@@ -127,7 +127,7 @@
 				}
 			},
 			"request": {
-				"method": "PATCH",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
@@ -166,6 +166,11 @@
 						{
 							"key": "country",
 							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "_method",
+							"value": "PAtCH",
 							"type": "text"
 						}
 					]
@@ -1129,7 +1134,7 @@
 				}
 			},
 			"request": {
-				"method": "PATCH",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
@@ -1169,6 +1174,11 @@
 							"key": "presentation",
 							"type": "file",
 							"src": "/D:/ХНЭУ/Тайм-менеджмент/Procrastination Zobova.pptx"
+						},
+						{
+							"key": "_method",
+							"value": "PATCH",
+							"type": "text"
 						}
 					]
 				},
@@ -1553,7 +1563,7 @@
 				}
 			},
 			"request": {
-				"method": "PATCH",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Accept",
@@ -1572,6 +1582,11 @@
 						{
 							"key": "name",
 							"value": "Category",
+							"type": "text"
+						},
+						{
+							"key": "_method",
+							"value": "PATCH",
 							"type": "text"
 						}
 					]

@@ -13,13 +13,11 @@ use Spatie\Period\Precision;
 
 class Conference extends Model
 {
-    use HasFactory;
-    use SoftDeletes, CascadeSoftDeletes;
+    use HasFactory, SoftDeletes, CascadeSoftDeletes;
 
     protected $cascadeDeletes = ['reports'];
     protected $table = 'conferences';
     protected $guarded = false;
-    //    protected $with = ['country', 'reports', 'category'];
     protected $appends = ['available'];
 
     public function country()
@@ -40,6 +38,11 @@ class Conference extends Model
     public function reports()
     {
         return $this->hasMany(Report::class, 'conference_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
     }
 
     public function getAvailableAttribute()
