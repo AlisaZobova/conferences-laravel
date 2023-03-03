@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Http\Controllers\ZoomMeetingController;
 use App\Mail\AdminDeleteReport;
 use App\Mail\UpdateReportTime;
 use App\Models\Report;
@@ -27,6 +28,11 @@ class ReportObserver
                     Mail::to($joinedUser->email)->send(new UpdateReportTime($conference, $report, $report->user));
                 }
             }
+            $this->updateZoom($report);
+        }
+
+        if ($report->topic != $report->getOriginal('topic')) {
+            $this->updateZoom($report);
         }
     }
 
@@ -39,5 +45,11 @@ class ReportObserver
             $report->user->joinedConferences()->detach($report->conference);
             Mail::to($report->user->email)->send(new AdminDeleteReport($report->conference));
         }
+    }
+
+    public function updateZoom($report) {
+        $zoom = new ZoomMeetingController();
+        $zoom->update($report->zoomConference->id, $report);
+        cache()->forget('meetings');
     }
 }

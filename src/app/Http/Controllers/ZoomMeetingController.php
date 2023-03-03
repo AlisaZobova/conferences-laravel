@@ -82,6 +82,33 @@ class ZoomMeetingController extends Controller
         $this->createZoomConference($response, $report->id);
     }
 
+    public function update($id, $report)
+    {
+        $path = 'meetings/'.$id;
+
+        $body = [
+            'headers' => $this->headers,
+            'body'    => json_encode([
+                'topic'      => $report->topic,
+                'start_time' => $this->toZoomTimeFormat($report->start_time),
+                'duration'   => $this->getDuration($report),
+            ]),
+        ];
+
+        $this->client->patch($this->baseUrl.$path, $body);
+    }
+
+    public function delete($id)
+    {
+        $path = 'meetings/'.$id;
+        $body = [
+            'headers' => $this->headers,
+            'body'    => json_encode([]),
+        ];
+
+        $this->client->delete($this->baseUrl.$path, $body);
+    }
+
     public function getNextPage($nextPageToken='') {
         $path = 'users/me/meetings';
 
