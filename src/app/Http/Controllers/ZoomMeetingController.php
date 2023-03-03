@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
-use App\Models\ZoomConference;
+use App\Models\ZoomMeeting;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
 
@@ -59,7 +59,7 @@ class ZoomMeetingController extends Controller
         $conferenceData['join_url'] = $response['join_url'];
         $conferenceData['start_url'] = $response['start_url'];
 
-        ZoomConference::create($conferenceData);
+        ZoomMeeting::create($conferenceData);
     }
 
     public function store(Report $report)
@@ -138,7 +138,7 @@ class ZoomMeetingController extends Controller
         }
 
         foreach ($meetings as &$meeting) {
-            $meeting['report_id'] = ZoomConference::find($meeting['id'])->report_id;
+            $meeting['report_id'] = ZoomMeeting::find($meeting['id'])->report_id;
         }
 
         cache(['meetings' => $meetings]);

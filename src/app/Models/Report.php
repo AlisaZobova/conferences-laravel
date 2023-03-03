@@ -37,6 +37,6 @@ class Report extends Model
 
     public function zoomConference()
     {
-        return $this->hasOne(ZoomConference::class);
+        return $this->hasOne(ZoomMeeting::class);
     }
 }
