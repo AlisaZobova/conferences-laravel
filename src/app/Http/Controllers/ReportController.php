@@ -46,11 +46,6 @@ class ReportController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->get('online') != 'false') {
-            $zoom = new ZoomMeetingController();
-            $data = $zoom->store($data);
-        }
-
         if ($data['presentation']) {
             $fileName = time() . '_' . $data['presentation']->getClientOriginalName();
             $data['presentation']->move(public_path('upload'), $fileName);
@@ -59,14 +54,19 @@ class ReportController extends Controller
 
         $report = Report::create($data);
 
+        if ($request->get('online') != 'false') {
+            $zoom = new ZoomMeetingController();
+            $zoom->store($report);
+        }
+
         cache()->forget('meetings');
 
-        return $report->load('user', 'conference', 'comments', 'category');
+        return $report->load('user', 'conference', 'comments', 'category', 'zoomConference');
     }
 
     public function show(Report $report)
     {
-        return $report->load('user', 'conference', 'comments', 'category');
+        return $report->load('user', 'conference', 'comments', 'category', 'zoomConference');
     }
 
     public function update(Report $report, ReportRequest $request)
@@ -89,7 +89,7 @@ class ReportController extends Controller
         }
 
         $report->update($data);
-        return $report->load('user', 'conference', 'comments', 'category');
+        return $report->load('user', 'conference', 'comments', 'category', 'zoomConference');
     }
 
     public function destroy(Report $report)

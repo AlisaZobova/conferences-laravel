@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Report;
+use App\Models\ZoomConference;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
 
@@ -42,35 +44,42 @@ class ZoomMeetingController extends Controller
         return $date->format('Y-m-d\TH:i:s');
     }
 
-    public function getDuration($data) {
-        $start = new \DateTime($data['start_time']);
-        $end = new \DateTime($data['end_time']);
+    public function getDuration(Report $report) {
+        $start = new \DateTime($report->start_time);
+        $end = new \DateTime($report->end_time);
         $timeDiff = $end->diff($start);
 
         return $timeDiff->h * 60 + $timeDiff->i;
     }
 
-    public function store($data)
+    public function createZoomConference($response, $reportId) {
+        $conferenceData = [];
+        $conferenceData['id'] = $response['id'];
+        $conferenceData['report_id'] = $reportId;
+        $conferenceData['join_url'] = $response['join_url'];
+        $conferenceData['start_url'] = $response['start_url'];
+
+        ZoomConference::create($conferenceData);
+    }
+
+    public function store(Report $report)
     {
         $path = 'users/me/meetings';
 
         $body = [
             'headers' => $this->headers,
             'body'    => json_encode([
-                'topic'      => $data['topic'],
+                'topic'      => $report->topic,
                 'type'       => 2,
-                'start_time' => $this->toZoomTimeFormat($data['start_time']),
-                'duration'   => $this->getDuration($data),
+                'start_time' => $this->toZoomTimeFormat($report->start_time),
+                'duration'   => $this->getDuration($report),
             ]),
         ];
 
         $response =  $this->client->post($this->baseUrl.$path, $body);
         $response = json_decode($response->getBody(), true);
 
-        $data['join_url'] = $response['join_url'];
-        $data['start_url'] = $response['start_url'];
-
-        return $data;
+        $this->createZoomConference($response, $report->id);
     }
 
     public function getNextPage($nextPageToken='') {
