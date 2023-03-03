@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ZoomMeetingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommentController;
@@ -94,8 +94,9 @@ Route::middleware(['auth', 'role:Admin'])->group(
         Route::delete('/categories/{category}', [ CategoryController::class, 'destroy' ]);
         Route::get('/conferences/export', [ ConferenceController::class, 'export' ]);
         Route::get('/reports/export', [ ReportController::class, 'export' ]);
-        Route::get('reports/{report}/export-comments', [ CommentController::class, 'export' ]);
-        Route::get('conferences/{conference}/export-listeners', [ ConferenceController::class, 'exportListeners' ]);
+        Route::get('/reports/{report}/export-comments', [ CommentController::class, 'export' ]);
+        Route::get('/conferences/{conference}/export-listeners', [ ConferenceController::class, 'exportListeners' ]);
+        Route::get('/meetings', [ ZoomMeetingController::class, 'index']);
     }
 );
 

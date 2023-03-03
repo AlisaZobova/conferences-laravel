@@ -73,4 +73,29 @@ class ZoomMeetingController extends Controller
         return $data;
     }
 
+    public function getNextPage($nextPageToken='') {
+        $path = 'users/me/meetings';
+
+        $content = [
+            'headers' => $this->headers,
+            'query' => $nextPageToken ? ["next_page_token" => $nextPageToken] : ''
+        ];
+
+        $response =  $this->client->get($this->baseUrl.$path, $content);
+
+        return json_decode($response->getBody(), true);
+    }
+
+    public function index() {
+        $meetings = [];
+        $data = $this->getNextPage();
+        $meetings = array_merge($meetings, $data['meetings']);
+
+        while ($data['next_page_token']) {
+            $data = $this->getNextPage($data['next_page_token']);
+            $meetings = array_merge($meetings, $data['meetings']);
+        }
+
+        return $meetings;
+    }
 }
