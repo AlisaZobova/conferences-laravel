@@ -16,6 +16,10 @@ class ConferenceController extends Controller
     {
         $conferences = Conference::with('country', 'reports', 'category');
 
+        if (count($request->query()) > 1) {
+            $conferences->whereDate('conf_date', '>=', date("Y-m-d"));
+        }
+
         foreach ($request->query() as $key=>$value) {
             if ($key === 'from') {
                 $conferences->whereDate('conf_date', '>=', $value);

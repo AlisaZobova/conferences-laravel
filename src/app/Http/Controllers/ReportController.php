@@ -13,6 +13,12 @@ class ReportController extends Controller
     {
         $reports = Report::with('comments');
 
+        if (count($request->query()) > 1) {
+            $reports->whereHas('conference', function ($query) {
+                $query->whereDate('conf_date', '>=', date("Y-m-d"));
+            });
+        }
+
         foreach ($request->query() as $key=>$value) {
             if ($key === 'from') {
                 $reports->whereTime('start_time', '>=', $value);
