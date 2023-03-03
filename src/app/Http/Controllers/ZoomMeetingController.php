@@ -87,6 +87,11 @@ class ZoomMeetingController extends Controller
     }
 
     public function index() {
+
+        if(cache('meetings')) {
+            return cache('meetings');
+        }
+
         $meetings = [];
         $data = $this->getNextPage();
         $meetings = array_merge($meetings, $data['meetings']);
@@ -95,6 +100,8 @@ class ZoomMeetingController extends Controller
             $data = $this->getNextPage($data['next_page_token']);
             $meetings = array_merge($meetings, $data['meetings']);
         }
+
+        cache(['meetings' => $meetings]);
 
         return $meetings;
     }

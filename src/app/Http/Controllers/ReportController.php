@@ -59,6 +59,8 @@ class ReportController extends Controller
 
         $report = Report::create($data);
 
+        cache()->forget('meetings');
+
         return $report->load('user', 'conference', 'comments', 'category');
     }
 
