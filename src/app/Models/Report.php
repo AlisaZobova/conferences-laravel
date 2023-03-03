@@ -34,4 +34,9 @@ class Report extends Model
     {
         return $this->hasMany(Comment::class, 'report_id', 'id');
     }
+
+    public function zoomConference()
+    {
+        return $this->hasOne(ZoomConference::class);
+    }
 }
