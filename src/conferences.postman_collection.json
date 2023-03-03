@@ -796,6 +796,43 @@
 			"response": []
 		},
 		{
+			"name": "reports meetings",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://zobova-am-api.groupbwt.com/api/meetings",
+					"protocol": "http",
+					"host": [
+						"zobova-am-api",
+						"groupbwt",
+						"com"
+					],
+					"path": [
+						"api",
+						"meetings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "reports filters",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
