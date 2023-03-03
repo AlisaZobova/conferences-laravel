@@ -46,7 +46,7 @@ class ReportController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->get('online')) {
+        if ($request->get('online') != 'false') {
             $zoom = new ZoomMeetingController();
             $data = $zoom->store($data);
         }
