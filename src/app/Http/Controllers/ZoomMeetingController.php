@@ -110,6 +110,10 @@ class ZoomMeetingController extends Controller
             $meetings = array_merge($meetings, $data['meetings']);
         }
 
+        foreach ($meetings as &$meeting) {
+            $meeting['report_id'] = ZoomConference::find($meeting['id'])->report_id;
+        }
+
         cache(['meetings' => $meetings]);
 
         return $meetings;
