@@ -28,10 +28,12 @@ class ReportObserver
                     Mail::to($joinedUser->email)->send(new UpdateReportTime($conference, $report, $report->user));
                 }
             }
-            $this->updateZoom($report);
+            if ($report->meeting) {
+                $this->updateZoom($report);
+            }
         }
 
-        if ($report->topic != $report->getOriginal('topic')) {
+        if ($report->topic != $report->getOriginal('topic') && $report->meeting) {
             $this->updateZoom($report);
         }
     }
@@ -46,11 +48,12 @@ class ReportObserver
             Mail::to($report->user->email)->send(new AdminDeleteReport($report->conference));
         }
 
-        $zoom = new ZoomMeetingController();
-        $zoom->delete($report->meeting->id);
-        $report->meeting()->forceDelete();
-
-        cache()->forget('meetings');
+        if ($report->meeting) {
+            $zoom = new ZoomMeetingController();
+            $zoom->delete($report->meeting->id);
+            $report->meeting()->forceDelete();
+            cache()->forget('meetings');
+        }
     }
 
     public function updateZoom($report) {

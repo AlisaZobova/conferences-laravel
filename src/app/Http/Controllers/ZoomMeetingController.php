@@ -101,12 +101,9 @@ class ZoomMeetingController extends Controller
     public function delete($id)
     {
         $path = 'meetings/'.$id;
-        $body = [
-            'headers' => $this->headers,
-            'body'    => json_encode([]),
-        ];
+        $headers = ['headers' => $this->headers];
 
-        $this->client->delete($this->baseUrl.$path, $body);
+        $this->client->delete($this->baseUrl.$path, $headers);
     }
 
     public function getNextPage($nextPageToken='') {
