@@ -107,11 +107,7 @@ class ReportController extends Controller
 
     public function destroy(Report $report)
     {
-        $id = $report->meeting->id;
         $report->delete();
-        $zoom = new ZoomMeetingController();
-        $zoom->delete($id);
-        cache()->forget('meetings');
     }
 
     public function download(Report $report)

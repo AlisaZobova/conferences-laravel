@@ -45,6 +45,12 @@ class ReportObserver
             $report->user->joinedConferences()->detach($report->conference);
             Mail::to($report->user->email)->send(new AdminDeleteReport($report->conference));
         }
+
+        $zoom = new ZoomMeetingController();
+        $zoom->delete($report->meeting->id);
+        $report->meeting()->forceDelete();
+
+        cache()->forget('meetings');
     }
 
     public function updateZoom($report) {
