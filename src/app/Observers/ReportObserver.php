@@ -49,7 +49,7 @@ class ReportObserver
 
     public function updateZoom($report) {
         $zoom = new ZoomMeetingController();
-        $zoom->update($report->zoomConference->id, $report);
+        $zoom->update($report->meeting->id, $report);
         cache()->forget('meetings');
     }
 }

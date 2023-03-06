@@ -76,12 +76,12 @@ class ReportController extends Controller
 
         cache()->forget('meetings');
 
-        return $report->load('user', 'conference', 'comments', 'category', 'zoomConference');
+        return $report->load('user', 'conference', 'comments', 'category', 'meeting');
     }
 
     public function show(Report $report)
     {
-        return $report->load('user', 'conference', 'comments', 'category', 'zoomConference');
+        return $report->load('user', 'conference', 'comments', 'category', 'meeting');
     }
 
     public function update(Report $report, ReportRequest $request)
@@ -102,12 +102,12 @@ class ReportController extends Controller
         }
 
         $report->update($data);
-        return $report->load('user', 'conference', 'comments', 'category', 'zoomConference');
+        return $report->load('user', 'conference', 'comments', 'category', 'meeting');
     }
 
     public function destroy(Report $report)
     {
-        $id = $report->zoomConference->id;
+        $id = $report->meeting->id;
         $report->delete();
         $zoom = new ZoomMeetingController();
         $zoom->delete($id);
