@@ -1,5 +1,5 @@
 <div>
-    Добрый день, на конференцию {{ $conference->title }}
+    Good afternoon, to the conference {{ $conference->title }}
     ({{ env("FRONTEND_URL") }}/conferences/{{ $conference->id }})
-    присоединился новый слушатель {{ $user->firstname . ' ' . $user->lastname }}.
+    joined a new listener {{ $user->firstname . ' ' . $user->lastname}}.
 </div>

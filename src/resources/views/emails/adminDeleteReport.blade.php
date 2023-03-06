@@ -1,5 +1,5 @@
 <div>
-    Добрый день, на конференции {{ $conference->title }}
+    Good afternoon, at the conference {{ $conference->title }}
     ({{ env("FRONTEND_URL") }}/conferences/{{ $conference->id }})
-    был удален ваш доклад администрацией.
+    your report has been removed by the administration.
 </div>
