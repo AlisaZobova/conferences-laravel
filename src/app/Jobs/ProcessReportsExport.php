@@ -20,10 +20,8 @@ class ProcessReportsExport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(public $reports)
+    {}
 
     /**
      * Execute the job.
@@ -34,14 +32,12 @@ class ProcessReportsExport implements ShouldQueue
         $delimeter = PHP_OS_FAMILY === 'Windows' ? '\\' : '/';
         $path = public_path('export') . $delimeter . $fileName;
 
-        $reports = Report::all();
-
         $columns = array('Topic', 'Time', 'Description', 'Comments');
 
         $file = fopen($path, 'w');
         fputcsv($file, $columns);
 
-        foreach ($reports as $report) {
+        foreach ($this->reports as $report) {
 
             $row['Topic'] = $report->topic;
             $row['Time'] = $report->start_time . ' - ' . $report->end_time;

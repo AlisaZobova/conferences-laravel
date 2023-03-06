@@ -11,15 +11,21 @@ class ReportController extends Controller
 {
     public function index(Request $request)
     {
+        return $this->getFilteredReports($request)->orderBy('start_time', 'DESC')->paginate(12);
+    }
+
+    public function getFilteredReports(Request $request) {
         $reports = Report::with('comments');
 
-        if (count($request->query()) > 1) {
+        $count = $request->query('page') ? 1 : 0;
+
+        if (count($request->query()) > $count) {
             $reports->whereHas('conference', function ($query) {
                 $query->whereDate('conf_date', '>=', date("Y-m-d"));
             });
         }
 
-        foreach ($request->query() as $key=>$value) {
+        foreach ($request->query() as $key => $value) {
             if ($key === 'from') {
                 $reports->whereTime('start_time', '>=', $value);
             }
@@ -35,13 +41,16 @@ class ReportController extends Controller
                 $reports->whereIn('category_id', $categories);
             }
         }
-        return $reports->orderBy('start_time', 'DESC')->paginate(12);
+        return $reports;
     }
 
     public function search(Request $request)
     {
         if ($request->query('topic')) {
-            $reports = Report::whereRaw("UPPER(topic) LIKE '%". strtoupper($request->query('topic'))."%'");
+            $reports = Report::whereRaw("UPPER(topic) LIKE '%" . strtoupper($request->query('topic')) . "%'")
+                ->whereHas('conference', function ($query) {
+                    $query->whereDate('conf_date', '>=', date("Y-m-d"));
+                });
             return $reports->orderBy('start_time', 'DESC')->get();
         }
 
@@ -88,9 +97,7 @@ class ReportController extends Controller
             $fileName = time() . '_' . $data['presentation']->getClientOriginalName();
             $data['presentation']->move(public_path('upload'), $fileName);
             $data['presentation'] = $fileName;
-        }
-
-        else {
+        } else {
             unset($data['presentation']);
         }
 
@@ -119,7 +126,9 @@ class ReportController extends Controller
         return \response()->download($file, $report->presentation, $headers);
     }
 
-    public function export() {
-        ProcessReportsExport::dispatch()->delay(now()->addSeconds(5));;
+    public function export(Request $request)
+    {
+        $reports = $this->getFilteredReports($request)->get();
+        ProcessReportsExport::dispatch($reports)->delay(now()->addSeconds(5));;
     }
 }
