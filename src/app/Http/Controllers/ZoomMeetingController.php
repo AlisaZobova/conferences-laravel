@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use App\Models\ZoomMeeting;
+use Exception;
 use Firebase\JWT\JWT;
 use GuzzleHttp\Client;
 
@@ -44,7 +45,8 @@ class ZoomMeetingController extends Controller
         return $date->format('Y-m-d\TH:i:s');
     }
 
-    public function getDuration(Report $report) {
+    public function getDuration(Report $report)
+    {
         $start = new \DateTime($report->start_time);
         $end = new \DateTime($report->end_time);
         $timeDiff = $end->diff($start);
@@ -52,14 +54,21 @@ class ZoomMeetingController extends Controller
         return $timeDiff->h * 60 + $timeDiff->i;
     }
 
-    public function createZoomConference($response, $reportId) {
+    public function createZoomConference($response, Report $report)
+    {
         $conferenceData = [];
         $conferenceData['id'] = $response['id'];
-        $conferenceData['report_id'] = $reportId;
+        $conferenceData['report_id'] = $report->id;
         $conferenceData['join_url'] = $response['join_url'];
         $conferenceData['start_url'] = $response['start_url'];
 
-        ZoomMeeting::create($conferenceData);
+        try{
+            ZoomMeeting::create($conferenceData);
+            return true;
+        } catch (Exception $e) {
+            $report->forceDelete();
+            return false;
+        }
     }
 
     public function store(Report $report)
@@ -68,18 +77,24 @@ class ZoomMeetingController extends Controller
 
         $body = [
             'headers' => $this->headers,
-            'body'    => json_encode([
+            'body'    => json_encode(
+                [
                 'topic'      => $report->topic,
                 'type'       => 2,
                 'start_time' => $this->toZoomTimeFormat($report->start_time),
                 'duration'   => $this->getDuration($report),
-            ]),
+                ]
+            ),
         ];
 
-        $response =  $this->client->post($this->baseUrl.$path, $body);
-        $response = json_decode($response->getBody(), true);
-
-        $this->createZoomConference($response, $report->id);
+        try {
+            $response =  $this->client->post($this->baseUrl.$path, $body);
+            $response = json_decode($response->getBody(), true);
+            return $this->createZoomConference($response, $report);
+        } catch (Exception $e) {
+            $report->forceDelete();
+            return false;
+        }
     }
 
     public function update($id, $report)
@@ -88,11 +103,13 @@ class ZoomMeetingController extends Controller
 
         $body = [
             'headers' => $this->headers,
-            'body'    => json_encode([
+            'body'    => json_encode(
+                [
                 'topic'      => $report->topic,
                 'start_time' => $this->toZoomTimeFormat($report->start_time),
                 'duration'   => $this->getDuration($report),
-            ]),
+                ]
+            ),
         ];
 
         $this->client->patch($this->baseUrl.$path, $body);
@@ -106,7 +123,8 @@ class ZoomMeetingController extends Controller
         $this->client->delete($this->baseUrl.$path, $headers);
     }
 
-    public function getNextPage($nextPageToken='') {
+    public function getNextPage($nextPageToken='')
+    {
         $path = 'users/me/meetings';
 
         $content = [
@@ -119,7 +137,8 @@ class ZoomMeetingController extends Controller
         return json_decode($response->getBody(), true);
     }
 
-    public function index() {
+    public function index()
+    {
 
         if(cache('meetings')) {
             return cache('meetings');

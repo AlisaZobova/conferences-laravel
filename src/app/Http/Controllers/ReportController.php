@@ -14,15 +14,18 @@ class ReportController extends Controller
         return $this->getFilteredReports($request)->orderBy('start_time', 'DESC')->paginate(12);
     }
 
-    public function getFilteredReports(Request $request) {
+    public function getFilteredReports(Request $request)
+    {
         $reports = Report::with('comments');
 
         $count = $request->query('page') ? 1 : 0;
 
         if (count($request->query()) > $count) {
-            $reports->whereHas('conference', function ($query) {
-                $query->whereDate('conf_date', '>=', date("Y-m-d"));
-            });
+            $reports->whereHas(
+                'conference', function ($query) {
+                    $query->whereDate('conf_date', '>=', date("Y-m-d"));
+                }
+            );
         }
 
         foreach ($request->query() as $key => $value) {
@@ -48,9 +51,11 @@ class ReportController extends Controller
     {
         if ($request->query('topic')) {
             $reports = Report::whereRaw("UPPER(topic) LIKE '%" . strtoupper($request->query('topic')) . "%'")
-                ->whereHas('conference', function ($query) {
-                    $query->whereDate('conf_date', '>=', date("Y-m-d"));
-                });
+                ->whereHas(
+                    'conference', function ($query) {
+                        $query->whereDate('conf_date', '>=', date("Y-m-d"));
+                    }
+                );
             return $reports->orderBy('start_time', 'DESC')->get();
         }
 
@@ -71,10 +76,16 @@ class ReportController extends Controller
 
         if ($request->get('online') != 'false') {
             $zoom = new ZoomMeetingController();
-            $zoom->store($report);
-        }
+            $success = $zoom->store($report);
 
-        cache()->forget('meetings');
+            if ($success) {
+                cache()->forget('meetings');
+            }
+
+            else {
+                return \response(['errors' => ['zoom' => 'An error occurred while creating the zoom meeting, please try again later']], 400);
+            }
+        }
 
         return $report->load('user', 'conference', 'comments', 'category', 'meeting');
     }
