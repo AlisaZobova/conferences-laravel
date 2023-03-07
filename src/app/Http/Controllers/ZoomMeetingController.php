@@ -112,7 +112,12 @@ class ZoomMeetingController extends Controller
             ),
         ];
 
-        $this->client->patch($this->baseUrl.$path, $body);
+        try {
+            $this->client->patch($this->baseUrl.$path, $body);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     public function delete($id)
@@ -120,7 +125,12 @@ class ZoomMeetingController extends Controller
         $path = 'meetings/'.$id;
         $headers = ['headers' => $this->headers];
 
-        $this->client->delete($this->baseUrl.$path, $headers);
+        try {
+            $this->client->delete($this->baseUrl.$path, $headers);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     public function getNextPage($nextPageToken='')

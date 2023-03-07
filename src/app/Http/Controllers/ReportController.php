@@ -111,7 +111,9 @@ class ReportController extends Controller
             unset($data['presentation']);
         }
 
-        $report->update($data);
+        if (!$report->update($data)) {
+            return \response(['errors' => ['zoom' => 'An error occurred while updating the zoom meeting, please try again later']], 400);
+        }
 
         if ($request->get('online') != 'false') {
             $success = $this->createZoomMeeting($report);
@@ -130,7 +132,12 @@ class ReportController extends Controller
 
     public function destroy(Report $report)
     {
-        $report->delete();
+        if (!$report->delete()) {
+            return \response(['errors' => ['zoom' => 'An error occurred while deleting the zoom meeting, please try again later']], 400);
+        }
+        else {
+            return null;
+        }
     }
 
     public function download(Report $report)
@@ -151,7 +158,8 @@ class ReportController extends Controller
         ProcessReportsExport::dispatch($reports)->delay(now()->addSeconds(5));;
     }
 
-    public function createZoomMeeting(Report $report) {
+    public function createZoomMeeting(Report $report)
+    {
         $zoom = new ZoomMeetingController();
         return $zoom->store($report);
     }
