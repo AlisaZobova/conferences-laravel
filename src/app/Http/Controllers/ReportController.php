@@ -75,8 +75,7 @@ class ReportController extends Controller
         $report = Report::create($data);
 
         if ($request->get('online') != 'false') {
-            $zoom = new ZoomMeetingController();
-            $success = $zoom->store($report);
+            $success = $this->createZoomMeeting($report);
 
             if ($success) {
                 cache()->forget('meetings');
@@ -113,6 +112,19 @@ class ReportController extends Controller
         }
 
         $report->update($data);
+
+        if ($request->get('online') != 'false') {
+            $success = $this->createZoomMeeting($report);
+
+            if ($success) {
+                cache()->forget('meetings');
+            }
+
+            else {
+                return \response(['errors' => ['zoom' => 'An error occurred while creating the zoom meeting, please try again later']], 400);
+            }
+        }
+
         return $report->load('user', 'conference', 'comments', 'category', 'meeting');
     }
 
@@ -137,5 +149,10 @@ class ReportController extends Controller
     {
         $reports = $this->getFilteredReports($request)->get();
         ProcessReportsExport::dispatch($reports)->delay(now()->addSeconds(5));;
+    }
+
+    public function createZoomMeeting(Report $report) {
+        $zoom = new ZoomMeetingController();
+        return $zoom->store($report);
     }
 }
