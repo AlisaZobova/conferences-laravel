@@ -54,7 +54,7 @@ class ZoomMeetingController extends Controller
         return $timeDiff->h * 60 + $timeDiff->i;
     }
 
-    public function createZoomConference($response, Report $report)
+    public function createZoomConference($response, Report $report, $updReport)
     {
         $conferenceData = [];
         $conferenceData['id'] = $response['id'];
@@ -66,12 +66,14 @@ class ZoomMeetingController extends Controller
             ZoomMeeting::create($conferenceData);
             return true;
         } catch (Exception $e) {
-            $report->forceDelete();
+            if (!$updReport) {
+                $report->forceDelete();
+            }
             return false;
         }
     }
 
-    public function store(Report $report)
+    public function store(Report $report, $updReport=false)
     {
         $path = 'users/me/meetings';
 
@@ -90,9 +92,11 @@ class ZoomMeetingController extends Controller
         try {
             $response =  $this->client->post($this->baseUrl.$path, $body);
             $response = json_decode($response->getBody(), true);
-            return $this->createZoomConference($response, $report);
+            return $this->createZoomConference($response, $report, $updReport);
         } catch (Exception $e) {
-            $report->forceDelete();
+            if (!$updReport) {
+                $report->forceDelete();
+            }
             return false;
         }
     }

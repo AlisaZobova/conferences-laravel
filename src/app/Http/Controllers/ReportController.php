@@ -116,7 +116,7 @@ class ReportController extends Controller
         }
 
         if ($request->get('online') != 'false') {
-            $success = $this->createZoomMeeting($report);
+            $success = $this->createZoomMeeting($report, true);
 
             if ($success) {
                 cache()->forget('meetings');
@@ -158,9 +158,9 @@ class ReportController extends Controller
         ProcessReportsExport::dispatch($reports)->delay(now()->addSeconds(5));;
     }
 
-    public function createZoomMeeting(Report $report)
+    public function createZoomMeeting(Report $report, $updReport=false)
     {
         $zoom = new ZoomMeetingController();
-        return $zoom->store($report);
+        return $zoom->store($report, $updReport);
     }
 }
