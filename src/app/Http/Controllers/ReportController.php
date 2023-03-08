@@ -82,7 +82,7 @@ class ReportController extends Controller
             }
 
             else {
-                return \response(['errors' => ['zoom' => 'An error occurred while creating the zoom meeting, please try again later']], 400);
+                return \response(['errors' => ['zoom' => 'An error occurred while creating the zoom meeting, please try again later']], 500);
             }
         }
 
@@ -112,7 +112,7 @@ class ReportController extends Controller
         }
 
         if (!$report->update($data)) {
-            return \response(['errors' => ['zoom' => 'An error occurred while updating the zoom meeting, please try again later']], 400);
+            return \response(['errors' => ['zoom' => 'An error occurred while updating the zoom meeting, please try again later']], 500);
         }
 
         if ($request->get('online') != 'false') {
@@ -123,7 +123,7 @@ class ReportController extends Controller
             }
 
             else {
-                return \response(['errors' => ['zoom' => 'An error occurred while creating the zoom meeting, please try again later']], 400);
+                return \response(['errors' => ['zoom' => 'An error occurred while creating the zoom meeting, please try again later']], 500);
             }
         }
 
@@ -133,7 +133,7 @@ class ReportController extends Controller
     public function destroy(Report $report)
     {
         if (!$report->delete()) {
-            return \response(['errors' => ['zoom' => 'An error occurred while deleting the zoom meeting, please try again later']], 400);
+            return \response(['errors' => ['zoom' => 'An error occurred while deleting the zoom meeting, please try again later']], 500);
         }
         else {
             return null;
