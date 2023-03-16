@@ -31,7 +31,7 @@ class RegisteredUserController extends Controller
 
         $user->assignRole($data['type']);
 
-        return $user;
+        return $user->load('roles', 'conferences', 'joinedConferences', 'reports', 'favorites');
     }
 
     public function store_additional(RegisterAdditionalRequest $request, User $user)
@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return $user;
+        return $user->load('roles', 'conferences', 'joinedConferences', 'reports', 'favorites');
     }
 
 }

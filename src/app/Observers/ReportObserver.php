@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Http\Controllers\ZoomMeetingController;
 use App\Mail\AdminDeleteReport;
 use App\Mail\UpdateReportTime;
 use App\Models\Report;
@@ -30,6 +31,20 @@ class ReportObserver
         }
     }
 
+    public function updating(Report $report) {
+
+        if (($report->start_time != $report->getOriginal('start_time') ||
+            $report->end_time != $report->getOriginal('end_time') ||
+            $report->topic != $report->getOriginal('topic'))
+            && $report->meeting) {
+
+            return $this->updateZoom($report);
+        }
+        else {
+            return true;
+        }
+    }
+
     /**
      * Handle the Report "deleted" event.
      */
@@ -39,5 +54,29 @@ class ReportObserver
             $report->user->joinedConferences()->detach($report->conference);
             Mail::to($report->user->email)->send(new AdminDeleteReport($report->conference));
         }
+
+        if ($report->meeting) {
+            $report->meeting()->forceDelete();
+            cache()->forget('meetings');
+        }
+    }
+
+    public function deleting(Report $report) {
+        if ($report->meeting) {
+            $zoom = new ZoomMeetingController();
+            return $zoom->delete($report->meeting->id);
+        }
+        else {
+            return true;
+        }
+    }
+
+    public function updateZoom($report) {
+        $zoom = new ZoomMeetingController();
+        $success = $zoom->update($report->meeting->id, $report);
+        if($success) {
+            cache()->forget('meetings');
+        }
+        return $success;
     }
 }

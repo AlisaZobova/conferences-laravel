@@ -5,16 +5,30 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReportRequest;
 use App\Jobs\ProcessReportsExport;
 use App\Models\Report;
-use DateTime;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
     public function index(Request $request)
     {
+        return $this->getFilteredReports($request)->orderBy('start_time', 'DESC')->paginate(12);
+    }
+
+    public function getFilteredReports(Request $request)
+    {
         $reports = Report::with('comments');
 
-        foreach ($request->query() as $key=>$value) {
+        $count = $request->query('page') ? 1 : 0;
+
+        if (count($request->query()) > $count) {
+            $reports->whereHas(
+                'conference', function ($query) {
+                    $query->whereDate('conf_date', '>=', date("Y-m-d"));
+                }
+            );
+        }
+
+        foreach ($request->query() as $key => $value) {
             if ($key === 'from') {
                 $reports->whereTime('start_time', '>=', $value);
             }
@@ -30,13 +44,18 @@ class ReportController extends Controller
                 $reports->whereIn('category_id', $categories);
             }
         }
-        return $reports->orderBy('start_time', 'DESC')->paginate(12);
+        return $reports;
     }
 
     public function search(Request $request)
     {
         if ($request->query('topic')) {
-            $reports = Report::whereRaw("UPPER(topic) LIKE '%". strtoupper($request->query('topic'))."%'");
+            $reports = Report::whereRaw("UPPER(topic) LIKE '%" . strtoupper($request->query('topic')) . "%'")
+                ->whereHas(
+                    'conference', function ($query) {
+                        $query->whereDate('conf_date', '>=', date("Y-m-d"));
+                    }
+                );
             return $reports->orderBy('start_time', 'DESC')->get();
         }
 
@@ -55,12 +74,24 @@ class ReportController extends Controller
 
         $report = Report::create($data);
 
-        return $report->load('user', 'conference', 'comments', 'category');
+        if ($request->get('online') != 'false') {
+            $success = $this->createZoomMeeting($report);
+
+            if ($success) {
+                cache()->forget('meetings');
+            }
+
+            else {
+                return \response(['errors' => ['zoom' => 'An error occurred while creating the zoom meeting, please try again later']], 500);
+            }
+        }
+
+        return $report->load('user', 'conference', 'comments', 'category', 'meeting');
     }
 
     public function show(Report $report)
     {
-        return $report->load('user', 'conference', 'comments', 'category');
+        return $report->load('user', 'conference', 'comments', 'category', 'meeting');
     }
 
     public function update(Report $report, ReportRequest $request)
@@ -76,19 +107,37 @@ class ReportController extends Controller
             $fileName = time() . '_' . $data['presentation']->getClientOriginalName();
             $data['presentation']->move(public_path('upload'), $fileName);
             $data['presentation'] = $fileName;
-        }
-
-        else {
+        } else {
             unset($data['presentation']);
         }
 
-        $report->update($data);
-        return $report->load('user', 'conference', 'comments', 'category');
+        if (!$report->update($data)) {
+            return \response(['errors' => ['zoom' => 'An error occurred while updating the zoom meeting, please try again later']], 500);
+        }
+
+        if ($request->get('online') != 'false') {
+            $success = $this->createZoomMeeting($report, true);
+
+            if ($success) {
+                cache()->forget('meetings');
+            }
+
+            else {
+                return \response(['errors' => ['zoom' => 'An error occurred while creating the zoom meeting, please try again later']], 500);
+            }
+        }
+
+        return $report->load('user', 'conference', 'comments', 'category', 'meeting');
     }
 
     public function destroy(Report $report)
     {
-        $report->delete();
+        if (!$report->delete()) {
+            return \response(['errors' => ['zoom' => 'An error occurred while deleting the zoom meeting, please try again later']], 500);
+        }
+        else {
+            return null;
+        }
     }
 
     public function download(Report $report)
@@ -103,7 +152,15 @@ class ReportController extends Controller
         return \response()->download($file, $report->presentation, $headers);
     }
 
-    public function export() {
-        ProcessReportsExport::dispatch()->delay(now()->addSeconds(5));;
+    public function export(Request $request)
+    {
+        $reports = $this->getFilteredReports($request)->get();
+        ProcessReportsExport::dispatch($reports)->delay(now()->addSeconds(5));;
+    }
+
+    public function createZoomMeeting(Report $report, $updReport=false)
+    {
+        $zoom = new ZoomMeetingController();
+        return $zoom->store($report, $updReport);
     }
 }

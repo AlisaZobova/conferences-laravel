@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\FinishedExport;
-use App\Events\TestEvent;
 use App\Http\Requests\ConferenceRequest;
 use App\Jobs\ProcessConferenceListenersExport;
 use App\Jobs\ProcessConferencesExport;
@@ -16,9 +14,20 @@ class ConferenceController extends Controller
 {
     public function index(Request $request)
     {
+        return $this->getFilteredConferences($request)->orderBy('conf_date', 'DESC')->paginate(15);
+    }
+
+    public function getFilteredConferences(Request $request)
+    {
         $conferences = Conference::with('country', 'reports', 'category');
 
-        foreach ($request->query() as $key=>$value) {
+        $count = $request->query('page') ? 1 : 0;
+
+        if (count($request->query()) > $count) {
+            $conferences->whereDate('conf_date', '>=', date("Y-m-d"));
+        }
+
+        foreach ($request->query() as $key => $value) {
             if ($key === 'from') {
                 $conferences->whereDate('conf_date', '>=', $value);
             }
@@ -37,13 +46,14 @@ class ConferenceController extends Controller
             }
         }
 
-        return $conferences->orderBy('conf_date', 'DESC')->paginate(15);
+        return $conferences;
     }
 
     public function search(Request $request)
     {
         if ($request->query('title')) {
-            $conferences = Conference::whereRaw("UPPER(title) LIKE '%". strtoupper($request->query('title'))."%'");
+            $conferences = Conference::whereRaw("UPPER(title) LIKE '%" . strtoupper($request->query('title')) . "%'")
+                ->whereDate('conf_date', '>=', date("Y-m-d"));
             return $conferences->orderBy('conf_date', 'DESC')->get();
         }
 
@@ -80,11 +90,14 @@ class ConferenceController extends Controller
         $conference->delete();
     }
 
-    public function export() {
-        ProcessConferencesExport::dispatch()->delay(now()->addSeconds(5));
+    public function export(Request $request)
+    {
+        $conferences = $this->getFilteredConferences($request)->get();
+        ProcessConferencesExport::dispatch($conferences)->delay(now()->addSeconds(5));
     }
 
-    public function exportListeners(Conference $conference) {
+    public function exportListeners(Conference $conference)
+    {
         ProcessConferenceListenersExport::dispatch($conference)->delay(now()->addSeconds(5));
     }
 }

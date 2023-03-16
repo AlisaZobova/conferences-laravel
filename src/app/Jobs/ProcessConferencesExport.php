@@ -20,9 +20,8 @@ class ProcessConferencesExport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(public $conferences)
     {
-        //
     }
 
     /**
@@ -34,14 +33,12 @@ class ProcessConferencesExport implements ShouldQueue
         $delimeter = PHP_OS_FAMILY === 'Windows' ? '\\' : '/';
         $path = public_path('export') . $delimeter . $fileName;
 
-        $conferences = Conference::all();
-
         $columns = array('Title', 'Date', 'Address', 'Country', 'Reports', 'Listeners');
 
         $file = fopen($path, 'w');
         fputcsv($file, $columns);
 
-        foreach ($conferences as $conference) {
+        foreach ($this->conferences as $conference) {
 
             $listeners = count($conference->users()->whereHas(
                 'roles', function($q){

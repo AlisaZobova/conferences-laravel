@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,5 +34,10 @@ class Report extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'report_id', 'id');
+    }
+
+    public function meeting()
+    {
+        return $this->hasOne(ZoomMeeting::class);
     }
 }

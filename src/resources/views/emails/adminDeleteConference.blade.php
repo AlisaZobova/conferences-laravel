@@ -1,3 +1,3 @@
 <div>
-    Добрый день, к сожалению конференция {{ $conference->title }} была удалена администрацией.
+    Good afternoon, unfortunately the conference {{ $conference->title }} has been deleted by the administration.
 </div>
